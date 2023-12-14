@@ -2,13 +2,10 @@ import 'dart:io';
 
 import 'package:app_manager/app_manager.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:sample_app/app/routes/app_pages.dart';
 
 class SplashscreenController extends GetxController {
   //TODO: Implement SplashscreenController
-
-  GetStorage box = GetStorage();
 
   RxBool isSubscription = false.obs;
 
@@ -40,12 +37,13 @@ class SplashscreenController extends GetxController {
     }
 
     itemModel.unity_test_mode = true;
-    box.write("ItemModel", itemModel.toJson());
+    ItemModel.toBoxStorage(itemModel);
 
     AdsManager adsManager = Get.put(AdsManager());
-    adsManager.initGDPRTest(isSubscription.value, () {
+    adsManager.admobTestIdentifiers = "37DF55D8CB7FA08929CFD78ED866BA5C";
+    adsManager.initGDPR(isSubscription.value, () {
       print("Ads initialized");
       Get.offAllNamed(Routes.HOME);
-    }, "37DF55D8CB7FA08929CFD78ED866BA5C");
+    });
   }
 }

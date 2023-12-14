@@ -24,6 +24,8 @@ class AdsManager extends GetxController {
   final facebookManager = Get.put(FacebookManager());
   final unityManager = Get.put(UnityManager());
 
+  String admobTestIdentifiers = "";
+
   Widget isInterstitialAdLoaded(Widget success, Widget error) {
     return Obx(() {
       print("Interstitial : A-${admobManager.isInterstitialAdLoaded.value} | F-${facebookManager.isInterstitialAdLoaded.value} | U-${unityManager.isInterstitialAdLoaded.value}");
@@ -76,27 +78,16 @@ class AdsManager extends GetxController {
     ConsentInformation.instance.reset();
   }
 
-  void initGDPRTest(bool isSubscription, Function function, String testIdentifiers) {
-    if (!isSubscription && (Platform.isIOS || Platform.isAndroid)) {
-      ItemModel itemModel = ItemModel.fromBoxStorage();
-      print("Init Ads Admob DGPR Test${itemModel.admob_gdpr}");
-      if (itemModel.admob_gdpr) {
-        admobManager.initGdprTest(function, testIdentifiers);
-      } else {
-        function();
-      }
-    } else {
-      print("Ads Disable");
-      function();
-    }
-  }
-
   void initGDPR(bool isSubscription, Function function) {
     if (!isSubscription && (Platform.isIOS || Platform.isAndroid)) {
       ItemModel itemModel = ItemModel.fromBoxStorage();
       print("Init Ads Admob DGPR ${itemModel.admob_gdpr}");
       if (itemModel.admob_gdpr) {
-        admobManager.initGdpr(function);
+        if (admobTestIdentifiers.isEmpty) {
+          admobManager.initGdpr(function);
+        } else {
+          admobManager.initGdprTest(function, admobTestIdentifiers);
+        }
       } else {
         function();
       }

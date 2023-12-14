@@ -27,24 +27,28 @@ class ItemModel {
   ItemModel.fromJson(Map<String, dynamic> json) {
     if (json.containsKey("item")) {
       var item = json["item"];
-      if (item.containsKey("IMAGINE_API_KEY")) IMAGINE_API_KEY = item["IMAGINE_API_KEY"];
-      if (item.containsKey("admob_gdpr")) admob_gdpr = (item["admob_gdpr"].toString() == "true");
-      if (item.containsKey("admob_banner")) admob_banner = item["admob_banner"];
-      if (item.containsKey("admob_interstitial")) admob_interstitial = item["admob_interstitial"];
-      if (item.containsKey("admob_native")) admob_native = item["admob_native"];
-      if (item.containsKey("admob_open_ads")) admob_open_ads = item["admob_open_ads"];
-      if (item.containsKey("admob_rewarded_ads")) admob_rewarded_ads = item["admob_rewarded_ads"];
+      try {
+        if (item.containsKey("IMAGINE_API_KEY")) IMAGINE_API_KEY = item["IMAGINE_API_KEY"];
+        if (item.containsKey("admob_gdpr")) admob_gdpr = (item["admob_gdpr"].toString() == "true");
+        if (item.containsKey("admob_banner")) admob_banner = item["admob_banner"];
+        if (item.containsKey("admob_interstitial")) admob_interstitial = item["admob_interstitial"];
+        if (item.containsKey("admob_native")) admob_native = item["admob_native"];
+        if (item.containsKey("admob_open_ads")) admob_open_ads = item["admob_open_ads"];
+        if (item.containsKey("admob_rewarded_ads")) admob_rewarded_ads = item["admob_rewarded_ads"];
 
-      if (item.containsKey("facebook_banner")) facebook_banner = item["facebook_banner"];
-      if (item.containsKey("facebook_interstitial")) facebook_interstitial = item["facebook_interstitial"];
-      if (item.containsKey("facebook_native")) facebook_native = item["facebook_native"];
-      if (item.containsKey("facebook_rewarded_ads")) facebook_rewarded_ads = item["facebook_rewarded_ads"];
+        if (item.containsKey("facebook_banner")) facebook_banner = item["facebook_banner"];
+        if (item.containsKey("facebook_interstitial")) facebook_interstitial = item["facebook_interstitial"];
+        if (item.containsKey("facebook_native")) facebook_native = item["facebook_native"];
+        if (item.containsKey("facebook_rewarded_ads")) facebook_rewarded_ads = item["facebook_rewarded_ads"];
 
-      if (item.containsKey("unity_game_id")) unity_game_id = item["unity_game_id"];
-      if (item.containsKey("unity_banner")) unity_banner = item["unity_banner"];
-      if (item.containsKey("unity_interstitial")) unity_interstitial = item["unity_interstitial"];
-      if (item.containsKey("unity_rewarded_ads")) unity_rewarded_ads = item["unity_rewarded_ads"];
-      if (item.containsKey("unity_test_mode")) unity_test_mode = (item["unity_test_mode"].toString() == "true");
+        if (item.containsKey("unity_game_id")) unity_game_id = item["unity_game_id"];
+        if (item.containsKey("unity_banner")) unity_banner = item["unity_banner"];
+        if (item.containsKey("unity_interstitial")) unity_interstitial = item["unity_interstitial"];
+        if (item.containsKey("unity_rewarded_ads")) unity_rewarded_ads = item["unity_rewarded_ads"];
+        if (item.containsKey("unity_test_mode")) unity_test_mode = (item["unity_test_mode"].toString() == "true");
+      } catch (e) {
+        print(e);
+      }
     }
   }
 
@@ -91,5 +95,11 @@ class ItemModel {
     } catch (e) {
       print(e);
     }
+  }
+
+  ItemModel.toBoxStorage(ItemModel itemModel) {
+    GetStorage box = GetStorage();
+    print(toJson());
+    box.write("ItemModel", itemModel.toJson());
   }
 }
