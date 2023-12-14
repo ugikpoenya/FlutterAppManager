@@ -8,8 +8,13 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  facebook_audience_network: ^1.0.1
   flutter:
     sdk: flutter
+  get: ^4.6.6
+  get_storage: ^2.1.1
+  google_mobile_ads: ^4.0.0
+  unity_ads_plugin: ^0.3.10
 
 dev_dependencies:
   flutter_test:
