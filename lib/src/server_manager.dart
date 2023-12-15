@@ -50,10 +50,10 @@ class ServerManager extends GetxController {
     }
   }
 
-  void getAssets(Function(AssetsModel?) function) async {
+  void getAssets(Function(AssetModel?) function) async {
     try {
       final response = await getServerUrl("api/assets");
-      AssetsModel assetsModel = AssetsModel.fromJson(response);
+      AssetModel assetsModel = AssetModel.fromJson(response);
       function(assetsModel);
     } catch (e) {
       function(null);

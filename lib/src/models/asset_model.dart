@@ -1,9 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
-class AssetsModel {
+class AssetModel {
   List<String> files = [];
   Map<String, List<String>> folders = {};
 
-  AssetsModel.fromJson(Map<String, dynamic> json) {
+  AssetModel.fromJson(Map<String, dynamic> json) {
     if (json.containsKey("files")) {
       files = List<String>.from(json["files"]);
     }
