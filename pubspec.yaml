@@ -8,6 +8,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  dio: ^5.4.0
   facebook_audience_network: ^1.0.1
   flutter:
     sdk: flutter

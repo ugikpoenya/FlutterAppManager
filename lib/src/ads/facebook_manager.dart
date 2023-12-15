@@ -1,11 +1,10 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:app_manager/app_manager.dart';
+import 'package:app_manager/src/ads/unity_manager.dart';
 import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'ads_manager.dart';
-import 'unity_manager.dart';
-import 'item_model.dart';
 
 class FacebookManager extends GetxController {
   final unityManager = Get.put(UnityManager());

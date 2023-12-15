@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'item_model.dart';
+import '../item_model.dart';
 import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
 class UnityManager extends GetxController {

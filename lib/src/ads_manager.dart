@@ -2,14 +2,14 @@
 
 import 'dart:io';
 
+import 'package:app_manager/app_manager.dart';
+import 'package:app_manager/src/ads/admob_manager.dart';
+import 'package:app_manager/src/ads/facebook_manager.dart';
+import 'package:app_manager/src/ads/unity_manager.dart';
 import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'facebook_manager.dart';
-import 'unity_manager.dart';
-import 'admob_manager.dart';
-import 'item_model.dart';
 import 'package:get_storage/get_storage.dart';
 
 enum AdsType { ADMOB, FACEBOOK, UNITY }
