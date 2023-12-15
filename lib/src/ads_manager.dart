@@ -24,6 +24,7 @@ class AdsManager extends GetxController {
   final facebookManager = Get.put(FacebookManager());
   final unityManager = Get.put(UnityManager());
 
+  RxBool isSubscription = false.obs;
   String admobTestIdentifiers = "";
 
   Widget isInterstitialAdLoaded(Widget success, Widget error) {
@@ -63,8 +64,8 @@ class AdsManager extends GetxController {
     admobManager.loadAppOpenAd();
   }
 
-  void initAds(bool isSubscription) {
-    if (!isSubscription && (Platform.isIOS || Platform.isAndroid)) {
+  void initAds() {
+    if (!isSubscription.value && (Platform.isIOS || Platform.isAndroid)) {
       print("Init Ads");
       facebookManager.initAds();
       unityManager.initAds();
@@ -78,8 +79,8 @@ class AdsManager extends GetxController {
     ConsentInformation.instance.reset();
   }
 
-  void initGDPR(bool isSubscription, Function function) {
-    if (!isSubscription && (Platform.isIOS || Platform.isAndroid)) {
+  void initGDPR(Function function) {
+    if (!isSubscription.value && (Platform.isIOS || Platform.isAndroid)) {
       ItemModel itemModel = ItemModel.fromBoxStorage();
       print("Init Ads Admob DGPR ${itemModel.admob_gdpr}");
       if (itemModel.admob_gdpr) {
@@ -135,8 +136,8 @@ class AdsManager extends GetxController {
     }
   }
 
-  Widget initBanner(BuildContext context, AdsType adsType, bool isSubscription) {
-    if (!isSubscription && (Platform.isIOS || Platform.isAndroid)) {
+  Widget initBanner(BuildContext context, AdsType adsType) {
+    if (!isSubscription.value && (Platform.isIOS || Platform.isAndroid)) {
       print("Init banner");
       if (adsType == AdsType.ADMOB) {
         return admobManager.loadBannerAd(context);
@@ -153,8 +154,8 @@ class AdsManager extends GetxController {
     }
   }
 
-  Widget initNative(BuildContext context, NativeType type, AdsType adsType, isSubscription) {
-    if (!isSubscription && (Platform.isIOS || Platform.isAndroid)) {
+  Widget initNative(BuildContext context, NativeType type, AdsType adsType) {
+    if (!isSubscription.value && (Platform.isIOS || Platform.isAndroid)) {
       print("Init Native");
       if (adsType == AdsType.ADMOB) {
         return admobManager.loadNativeAd(context, type);

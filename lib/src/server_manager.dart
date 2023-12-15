@@ -35,7 +35,7 @@ class ServerManager extends GetxController {
 
   Future getServerUrl(url) async {
     final response = await dio.get(
-      getBaseUrl(),
+      getBaseUrl() + url,
       options: Options(
         headers: {
           "api_key": getApiKey(),

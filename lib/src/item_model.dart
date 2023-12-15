@@ -3,6 +3,7 @@
 import 'package:get_storage/get_storage.dart';
 
 class ItemModel {
+  String OPENAI_API_KEY = "";
   String IMAGINE_API_KEY = "";
   bool admob_gdpr = false;
   String admob_banner = "";
@@ -25,9 +26,34 @@ class ItemModel {
   ItemModel();
 
   ItemModel.fromJson(Map<String, dynamic> json) {
-    if (json.containsKey("item")) {
-      var item = json["item"];
+    if (json.containsKey("item") && (json["item"] is! List)) {
+      itemParser(json["item"]);
+    }
+  }
+
+  Map toJson() => {
+        'OPENAI_API_KEY ': OPENAI_API_KEY,
+        'IMAGINE_API_KEY': IMAGINE_API_KEY,
+        'admob_gdpr': admob_gdpr,
+        'admob_banner': admob_banner,
+        'admob_interstitial': admob_interstitial,
+        'admob_native': admob_native,
+        'admob_open_ads': admob_open_ads,
+        'facebook_banner': facebook_banner,
+        'facebook_interstitial': facebook_interstitial,
+        'facebook_native': facebook_native,
+        'facebook_rewarded_ads': facebook_rewarded_ads,
+        'unity_game_id': unity_game_id,
+        'unity_banner': unity_banner,
+        'unity_interstitial': unity_interstitial,
+        'unity_rewarded_ads': unity_rewarded_ads,
+        'unity_test_mode': unity_test_mode,
+      };
+
+  void itemParser(dynamic item) {
+    if (item != null) {
       try {
+        if (item.containsKey("OPENAI_API_KEY ")) OPENAI_API_KEY = item["OPENAI_API_KEY "];
         if (item.containsKey("IMAGINE_API_KEY")) IMAGINE_API_KEY = item["IMAGINE_API_KEY"];
         if (item.containsKey("admob_gdpr")) admob_gdpr = (item["admob_gdpr"].toString() == "true");
         if (item.containsKey("admob_banner")) admob_banner = item["admob_banner"];
@@ -52,54 +78,13 @@ class ItemModel {
     }
   }
 
-  Map toJson() => {
-        'IMAGINE_API_KEY': IMAGINE_API_KEY,
-        'admob_gdpr': admob_gdpr,
-        'admob_banner': admob_banner,
-        'admob_interstitial': admob_interstitial,
-        'admob_native': admob_native,
-        'admob_open_ads': admob_open_ads,
-        'facebook_banner': facebook_banner,
-        'facebook_interstitial': facebook_interstitial,
-        'facebook_native': facebook_native,
-        'facebook_rewarded_ads': facebook_rewarded_ads,
-        'unity_game_id': unity_game_id,
-        'unity_banner': unity_banner,
-        'unity_interstitial': unity_interstitial,
-        'unity_rewarded_ads': unity_rewarded_ads,
-        'unity_test_mode': unity_test_mode,
-      };
-
   ItemModel.fromBoxStorage() {
     GetStorage box = GetStorage();
-    var json = box.read("ItemModel");
-    try {
-      if (json.containsKey("IMAGINE_API_KEY")) IMAGINE_API_KEY = json["IMAGINE_API_KEY"];
-      if (json.containsKey("admob_gdpr")) admob_gdpr = json["admob_gdpr"];
-      if (json.containsKey("admob_banner")) admob_banner = json["admob_banner"];
-      if (json.containsKey("admob_interstitial")) admob_interstitial = json["admob_interstitial"];
-      if (json.containsKey("admob_native")) admob_native = json["admob_native"];
-      if (json.containsKey("admob_open_ads")) admob_open_ads = json["admob_open_ads"];
-      if (json.containsKey("admob_rewarded_ads")) admob_rewarded_ads = json["admob_rewarded_ads"];
-
-      if (json.containsKey("facebook_banner")) facebook_banner = json["facebook_banner"];
-      if (json.containsKey("facebook_interstitial")) facebook_interstitial = json["facebook_interstitial"];
-      if (json.containsKey("facebook_native")) facebook_native = json["facebook_native"];
-      if (json.containsKey("facebook_rewarded_ads")) facebook_rewarded_ads = json["facebook_rewarded_ads"];
-
-      if (json.containsKey("unity_game_id")) unity_game_id = json["unity_game_id"];
-      if (json.containsKey("unity_banner")) unity_banner = json["unity_banner"];
-      if (json.containsKey("unity_interstitial")) unity_interstitial = json["unity_interstitial"];
-      if (json.containsKey("unity_rewarded_ads")) unity_rewarded_ads = json["unity_rewarded_ads"];
-      if (json.containsKey("unity_test_mode")) unity_test_mode = json["unity_test_mode"];
-    } catch (e) {
-      print(e);
-    }
+    itemParser(box.read("ItemModel"));
   }
 
   ItemModel.toBoxStorage(ItemModel itemModel) {
     GetStorage box = GetStorage();
-    print(toJson());
     box.write("ItemModel", itemModel.toJson());
   }
 }

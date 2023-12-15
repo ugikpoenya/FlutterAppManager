@@ -15,7 +15,7 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
       ),
       body: FutureBuilder(future: Future.sync(() {
-        adsManager.initAds(controller.isSubscription.value);
+        adsManager.initAds();
       }), builder: (context, snapshot) {
         return Obx(() => SingleChildScrollView(
               child: SizedBox(
@@ -23,9 +23,9 @@ class HomeView extends GetView<HomeController> {
                 child: Column(
                   children: [
                     ElevatedButton(
-                      onPressed: () => controller.isSubscription.value = !controller.isSubscription.value,
+                      onPressed: () => adsManager.isSubscription.value = !adsManager.isSubscription.value,
                       style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
-                      child: (controller.isSubscription.value) ? const Text('Is Subscription') : const Text('Is Not Subscription'),
+                      child: (adsManager.isSubscription.value) ? const Text('Is Subscription') : const Text('Is Not Subscription'),
                     ),
                     ElevatedButton(
                       onPressed: () => adsManager.loadAppOpenAd(),
@@ -50,13 +50,13 @@ class HomeView extends GetView<HomeController> {
                     adsManager.isInterstitialAdLoaded(const Text("Success"), const Text("Error")),
                     adsManager.isRewardedAdLoaded(const Text("Success"), const Text("Error")),
                     adsManager.isInterstitialAdLoaded_isRewardedAdLoaded(const Text("Success"), const Text("Error")),
-                    adsManager.initBanner(context, AdsType.ADMOB, controller.isSubscription.value),
-                    adsManager.initBanner(context, AdsType.FACEBOOK, controller.isSubscription.value),
-                    adsManager.initBanner(context, AdsType.UNITY, controller.isSubscription.value),
-                    adsManager.initNative(context, NativeType.SMALL, AdsType.ADMOB, controller.isSubscription.value),
-                    adsManager.initNative(context, NativeType.SMALL, AdsType.FACEBOOK, controller.isSubscription.value),
-                    adsManager.initNative(context, NativeType.MEDIUM, AdsType.ADMOB, controller.isSubscription.value),
-                    adsManager.initNative(context, NativeType.MEDIUM, AdsType.FACEBOOK, controller.isSubscription.value),
+                    adsManager.initBanner(context, AdsType.ADMOB),
+                    adsManager.initBanner(context, AdsType.FACEBOOK),
+                    adsManager.initBanner(context, AdsType.UNITY),
+                    adsManager.initNative(context, NativeType.SMALL, AdsType.ADMOB),
+                    adsManager.initNative(context, NativeType.SMALL, AdsType.FACEBOOK),
+                    adsManager.initNative(context, NativeType.MEDIUM, AdsType.ADMOB),
+                    adsManager.initNative(context, NativeType.MEDIUM, AdsType.FACEBOOK),
                   ],
                 ),
               ),
