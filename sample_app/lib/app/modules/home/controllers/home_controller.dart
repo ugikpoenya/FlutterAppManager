@@ -1,7 +1,8 @@
+import 'package:app_manager/app_manager.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
 
-  RxBool isSubscription = false.obs;
+  RxList<PostModel> postModelList = <PostModel>[].obs;
 }

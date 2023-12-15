@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 
 class ServerManager extends GetxController {
   GetStorage box = GetStorage();
-  RxBool isProgresLoading = false.obs;
   final dio = Dio();
 
   Future getServerUrl(url) async {
@@ -27,18 +26,38 @@ class ServerManager extends GetxController {
     }
   }
 
-  void getApi(Function function) async {
-    isProgresLoading.value = true;
+  void getApi(Function(ItemModel?) function) async {
     try {
       final response = await getServerUrl("api/");
       var itemModel = ItemModel.fromJson(response);
       ItemModel.toBoxStorage(itemModel);
-      isProgresLoading.value = false;
-      function();
+      function(itemModel);
     } catch (e) {
       print(e);
-      isProgresLoading.value = false;
-      function();
+      function(null);
+    }
+  }
+
+  void getPosts(Function(List<PostModel>?) function) async {
+    print("getPosts");
+    try {
+      final response = await getServerUrl("api/posts");
+      List<PostModel> postModelList = PostModel.fromJsonList(response["data"]);
+      function(postModelList);
+    } catch (e) {
+      function(null);
+      print(e);
+    }
+  }
+
+  void getAssets(Function(AssetsModel?) function) async {
+    try {
+      final response = await getServerUrl("api/assets");
+      AssetsModel assetsModel = AssetsModel.fromJson(response);
+      function(assetsModel);
+    } catch (e) {
+      function(null);
+      print(e);
     }
   }
 }
