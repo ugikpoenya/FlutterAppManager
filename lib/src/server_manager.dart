@@ -1,4 +1,5 @@
 import 'package:app_manager/app_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import 'package:get_storage/get_storage.dart';
@@ -9,6 +10,8 @@ class ServerManager extends GetxController {
   final dio = Dio();
 
   Future getServerUrl(url) async {
+    if (kDebugMode) print("Get Url : ${AppConfig().getBaseUrl() + url}");
+
     final response = await dio.get(
       AppConfig().getBaseUrl() + url,
       options: Options(
@@ -18,6 +21,8 @@ class ServerManager extends GetxController {
         },
       ),
     );
+
+    if (kDebugMode) print(response);
 
     if (response.statusCode == 200) {
       return response.data;
