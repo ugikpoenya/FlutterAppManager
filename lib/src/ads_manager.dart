@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 enum AdsType { ADMOB, FACEBOOK, UNITY }
 
@@ -167,6 +168,68 @@ class AdsManager extends GetxController {
     } else {
       print("Native Disable");
       return const SizedBox.shrink();
+    }
+  }
+
+  void confirmAdsAction(
+    BuildContext context,
+    String title,
+    String button,
+    Function function,
+  ) {
+    if (isSubscription.value) {
+      function();
+    } else {
+      AdsManager adsManager = Get.put(AdsManager());
+      AdmobManager admobManager = Get.put(AdmobManager());
+      FacebookManager facebookManager = Get.put(FacebookManager());
+      UnityManager unityManager = Get.put(UnityManager());
+
+      if (admobManager.isRewardedAdLoaded.value || admobManager.isInterstitialAdLoaded.value || facebookManager.isRewardedAdLoaded.value || facebookManager.isInterstitialAdLoaded.value || unityManager.isRewardedAdLoaded.value || unityManager.isInterstitialAdLoaded.value) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: Colors.grey.shade200,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                (title.isEmpty)
+                    ? const SizedBox.shrink()
+                    : Text(
+                        title,
+                        style: const TextStyle(color: Colors.black),
+                        textAlign: TextAlign.center,
+                      ),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    adsManager.showRewardedAd(AdsType.ADMOB);
+                    Navigator.pop(context);
+                    function();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 15, bottom: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(MdiIcons.playBoxLock, size: 45.0, color: Colors.black),
+                        const SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(button, style: const TextStyle(fontSize: 20, color: Colors.black)),
+                            const Text("Show Ads", style: TextStyle(fontSize: 15, color: Colors.black)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      }
     }
   }
 }

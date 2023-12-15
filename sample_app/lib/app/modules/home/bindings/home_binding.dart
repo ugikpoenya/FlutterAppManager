@@ -6,6 +6,7 @@ import '../controllers/home_controller.dart';
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
+    Get.lazyPut<RevenuecatManager>(() => RevenuecatManager());
     Get.lazyPut<AdsManager>(() => AdsManager());
     Get.lazyPut<HomeController>(() => HomeController());
   }

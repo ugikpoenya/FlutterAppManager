@@ -9,37 +9,13 @@ class ServerManager extends GetxController {
   RxBool isProgresLoading = false.obs;
   final dio = Dio();
 
-  void setBaseUrl(String value) {
-    box.write("BASE_URL", value);
-  }
-
-  String getBaseUrl() {
-    return box.read("BASE_URL");
-  }
-
-  void setApiKey(String value) {
-    box.write("API_KEY", value);
-  }
-
-  String getApiKey() {
-    return box.read("API_KEY");
-  }
-
-  void setPackageName(String value) {
-    box.write("PACKAGE_NAME", value);
-  }
-
-  String getPackageName() {
-    return box.read("PACKAGE_NAME");
-  }
-
   Future getServerUrl(url) async {
     final response = await dio.get(
-      getBaseUrl() + url,
+      AppConfig().getBaseUrl() + url,
       options: Options(
         headers: {
-          "api_key": getApiKey(),
-          "package_name": getPackageName(),
+          "api_key": AppConfig().getApiKey(),
+          "package_name": AppConfig().getPackageName(),
         },
       ),
     );

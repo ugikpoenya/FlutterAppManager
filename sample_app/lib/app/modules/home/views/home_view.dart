@@ -9,6 +9,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     AdsManager adsManager = Get.find();
+    RevenuecatManager revenuecatManager = Get.find();
     return Scaffold(
       appBar: AppBar(
         title: const Text('HomeView'),
@@ -22,10 +23,25 @@ class HomeView extends GetView<HomeController> {
                 width: double.infinity,
                 child: Column(
                   children: [
-                    ElevatedButton(
-                      onPressed: () => adsManager.isSubscription.value = !adsManager.isSubscription.value,
-                      style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white), backgroundColor: (adsManager.isSubscription.value) ? Colors.green : Colors.orange),
-                      child: (adsManager.isSubscription.value) ? const Text('Subscription', style: TextStyle(color: Colors.white)) : const Text('Not Subscription', style: TextStyle(color: Colors.white)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () => adsManager.isSubscription.value = !adsManager.isSubscription.value,
+                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white), backgroundColor: (adsManager.isSubscription.value) ? Colors.green : Colors.orange),
+                          child: (adsManager.isSubscription.value) ? const Text('Subscription', style: TextStyle(color: Colors.white)) : const Text('Not Subscription', style: TextStyle(color: Colors.white)),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => revenuecatManager.showSubscriptions(context),
+                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
+                          child: const Text('Buy'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => showConfig(context),
+                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
+                          child: const Text('Setting'),
+                        ),
+                      ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -86,6 +102,15 @@ class HomeView extends GetView<HomeController> {
                           child: const Text('UNITY Rewarded'),
                         ),
                       ],
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        adsManager.confirmAdsAction(context, "Generate App", "Generateing", () {
+                          showAllert(context, "Gnerate OK");
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
+                      child: const Text('Generate'),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
