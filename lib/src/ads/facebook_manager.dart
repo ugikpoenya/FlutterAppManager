@@ -48,11 +48,11 @@ class FacebookManager extends GetxController {
     String placementId = ItemModel.fromBoxStorage().facebook_native;
     if (placementId.isEmpty) {
       print("FacebookNativeAd Disable");
-      return const SizedBox.shrink();
+      return unityManager.loadBannerAd();
     } else {
       print("FacebookNativeAd Load");
       return Obx(() => (nativeAdIsLoaded.value == LoadingProgress.ERROR)
-          ? const SizedBox.shrink()
+          ? unityManager.loadBannerAd()
           : (type == NativeType.MEDIUM)
               ? FacebookNativeAd(
                   placementId: placementId,

@@ -24,39 +24,90 @@ class HomeView extends GetView<HomeController> {
                   children: [
                     ElevatedButton(
                       onPressed: () => adsManager.isSubscription.value = !adsManager.isSubscription.value,
-                      style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
-                      child: (adsManager.isSubscription.value) ? const Text('Is Subscription') : const Text('Is Not Subscription'),
+                      style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white), backgroundColor: (adsManager.isSubscription.value) ? Colors.green : Colors.orange),
+                      child: (adsManager.isSubscription.value) ? const Text('Subscription', style: TextStyle(color: Colors.white)) : const Text('Not Subscription', style: TextStyle(color: Colors.white)),
                     ),
-                    ElevatedButton(
-                      onPressed: () => adsManager.loadAppOpenAd(),
-                      style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
-                      child: const Text('Open Ads'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () => adsManager.loadAppOpenAd(),
+                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white), backgroundColor: Colors.red),
+                          child: const Text('Open Ads', style: TextStyle(color: Colors.white)),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => adsManager.resetGdpr(),
+                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white), backgroundColor: Colors.red),
+                          child: const Text('Reset GDPR', style: TextStyle(color: Colors.white)),
+                        ),
+                      ],
                     ),
-                    ElevatedButton(
-                      onPressed: () => adsManager.resetGdpr(),
-                      style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
-                      child: const Text('Reset GDPR Admib'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () => adsManager.showInterstitialAd(AdsType.ADMOB),
+                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
+                          child: const Text('ADMOB Interstitial'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => adsManager.showRewardedAd(AdsType.ADMOB),
+                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
+                          child: const Text('ADMOB Rewarded'),
+                        ),
+                      ],
                     ),
-                    ElevatedButton(
-                      onPressed: () => adsManager.showInterstitialAd(AdsType.ADMOB),
-                      style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
-                      child: const Text('Show Interstitial'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () => adsManager.showInterstitialAd(AdsType.FACEBOOK),
+                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
+                          child: const Text('FACEBOOK Interstitial'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => adsManager.showRewardedAd(AdsType.FACEBOOK),
+                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
+                          child: const Text('FACEBOOK Rewarded'),
+                        ),
+                      ],
                     ),
-                    ElevatedButton(
-                      onPressed: () => adsManager.showRewardedAd(AdsType.ADMOB),
-                      style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
-                      child: const Text('Show Rewarded'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () => adsManager.showInterstitialAd(AdsType.UNITY),
+                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
+                          child: const Text('UNITY Interstitial'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => adsManager.showRewardedAd(AdsType.UNITY),
+                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
+                          child: const Text('UNITY Rewarded'),
+                        ),
+                      ],
                     ),
-                    adsManager.isInterstitialAdLoaded(const Text("Success"), const Text("Error")),
-                    adsManager.isRewardedAdLoaded(const Text("Success"), const Text("Error")),
-                    adsManager.isInterstitialAdLoaded_isRewardedAdLoaded(const Text("Success"), const Text("Error")),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        adsManager.isInterstitialAdLoaded(const Text("Success"), const Text("Error")),
+                        adsManager.isRewardedAdLoaded(const Text("Success"), const Text("Error")),
+                        adsManager.isInterstitialAdLoaded_isRewardedAdLoaded(const Text("Success"), const Text("Error")),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    const Text("Admob"),
                     adsManager.initBanner(context, AdsType.ADMOB),
-                    adsManager.initBanner(context, AdsType.FACEBOOK),
-                    adsManager.initBanner(context, AdsType.UNITY),
                     adsManager.initNative(context, NativeType.SMALL, AdsType.ADMOB),
-                    adsManager.initNative(context, NativeType.SMALL, AdsType.FACEBOOK),
                     adsManager.initNative(context, NativeType.MEDIUM, AdsType.ADMOB),
+                    const SizedBox(height: 30),
+                    const Text("Facebook"),
+                    adsManager.initBanner(context, AdsType.FACEBOOK),
+                    adsManager.initNative(context, NativeType.SMALL, AdsType.FACEBOOK),
                     adsManager.initNative(context, NativeType.MEDIUM, AdsType.FACEBOOK),
+                    const SizedBox(height: 30),
+                    const Text("Unity"),
+                    adsManager.initBanner(context, AdsType.UNITY),
                   ],
                 ),
               ),
