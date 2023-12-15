@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,6 +20,16 @@ class RevenuecatManager extends GetxController {
   late CustomerInfo customerInfo;
   RxString identifierSelected = "".obs;
   Package? packageSelected;
+
+  Widget getSubscriptionIcon(BuildContext context) {
+    return Obx(() => IconButton(
+          onPressed: () => showSubscriptions(context),
+          icon: Icon(
+            MdiIcons.crown,
+            color: (adsManager.isSubscription.value) ? Colors.green : Colors.yellow,
+          ),
+        ));
+  }
 
   void initPurchases() async {
     PurchasesConfiguration configuration = PurchasesConfiguration(AppConfig().getRevenuecatApiKey());
