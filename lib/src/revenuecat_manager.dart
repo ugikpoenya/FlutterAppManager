@@ -3,8 +3,7 @@
 import 'dart:io';
 
 import 'package:app_manager/app_manager.dart';
-import 'package:app_manager/src/app_config.dart';
-import 'package:app_manager/src/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,13 +24,16 @@ class RevenuecatManager extends GetxController {
     PurchasesConfiguration configuration = PurchasesConfiguration(AppConfig().getRevenuecatApiKey());
     await Purchases.configure(configuration);
     await Purchases.enableAdServicesAttributionTokenCollection();
-    var info = await Purchases.getCustomerInfo();
-    cekCustomerInfo(info);
+    Purchases.addCustomerInfoUpdateListener((info) {
+      if (kDebugMode) print("Revenucat Listener");
+      cekCustomerInfo(info);
+    });
     if (availablePackages.isEmpty) getOfferings();
   }
 
   void cekCustomerInfo(CustomerInfo info) async {
     customerInfo = info;
+    if (kDebugMode) print(info);
     if (customerInfo.entitlements.active.isNotEmpty) {
       adsManager.isSubscription.value = true;
     } else {
