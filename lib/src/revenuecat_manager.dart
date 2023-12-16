@@ -245,11 +245,15 @@ class RevenuecatManager extends GetxController {
                   ),
                   (kDebugMode)
                       ? InkWell(
-                          onTap: () {
-                            Future.delayed(const Duration(milliseconds: 3000), () {
-                              adsManager.isSubscription.value = !adsManager.isSubscription.value;
-                            });
-                          },
+                          onTap: (isPurchasingLoading.value)
+                              ? null
+                              : () {
+                                  isPurchasingLoading.value = true;
+                                  Future.delayed(const Duration(milliseconds: 3000), () {
+                                    isPurchasingLoading.value = false;
+                                    adsManager.isSubscription.value = !adsManager.isSubscription.value;
+                                  });
+                                },
                           child: const Text("Test purchase"),
                         )
                       : const SizedBox.shrink()
