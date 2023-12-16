@@ -10,7 +10,6 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     AdsManager adsManager = Get.find();
     // ServerManager serverManager = Get.find();
-    RevenuecatManager revenuecatManager = Get.find();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -19,13 +18,9 @@ class HomeView extends GetView<HomeController> {
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        actions: [
-          revenuecatManager.getSubscriptionIcon(context),
-        ],
       ),
       body: FutureBuilder(future: Future.sync(() {
-        adsManager.initAds();
-        revenuecatManager.initPurchases();
+        adsManager.initAds(controller.isSubscription.value);
         // serverManager.getPosts((response) {
         //   response?.forEach((element) {
         //     print(element.post_title);
@@ -54,14 +49,9 @@ class HomeView extends GetView<HomeController> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         ElevatedButton(
-                          onPressed: () => adsManager.isSubscription.value = !adsManager.isSubscription.value,
-                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white), backgroundColor: (adsManager.isSubscription.value) ? Colors.green : Colors.orange),
-                          child: (adsManager.isSubscription.value) ? const Text('Subscription', style: TextStyle(color: Colors.white)) : const Text('Not Subscription', style: TextStyle(color: Colors.white)),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => revenuecatManager.showSubscriptions(context),
-                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
-                          child: const Text('Buy'),
+                          onPressed: () => controller.isSubscription.value = !controller.isSubscription.value,
+                          style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white), backgroundColor: (controller.isSubscription.value) ? Colors.green : Colors.orange),
+                          child: (controller.isSubscription.value) ? const Text('Subscription', style: TextStyle(color: Colors.white)) : const Text('Not Subscription', style: TextStyle(color: Colors.white)),
                         ),
                         ElevatedButton(
                           onPressed: () => showConfig(context),
@@ -132,7 +122,7 @@ class HomeView extends GetView<HomeController> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        adsManager.confirmAdsAction(context, "Generate App", "Generateing", () {
+                        adsManager.confirmAdsAction(controller.isSubscription.value, context, "Generate App", "Generateing", () {
                           showAllert(context, "Gnerate OK");
                         });
                       },
@@ -149,17 +139,17 @@ class HomeView extends GetView<HomeController> {
                     ),
                     const SizedBox(height: 30),
                     const Text("Admob"),
-                    adsManager.initBanner(context, AdsType.ADMOB),
-                    adsManager.initNative(context, NativeType.SMALL, AdsType.ADMOB),
-                    adsManager.initNative(context, NativeType.MEDIUM, AdsType.ADMOB),
+                    adsManager.initBanner(controller.isSubscription.value, context, AdsType.ADMOB),
+                    adsManager.initNative(controller.isSubscription.value, context, NativeType.SMALL, AdsType.ADMOB),
+                    adsManager.initNative(controller.isSubscription.value, context, NativeType.MEDIUM, AdsType.ADMOB),
                     const SizedBox(height: 30),
                     const Text("Facebook"),
-                    adsManager.initBanner(context, AdsType.FACEBOOK),
-                    adsManager.initNative(context, NativeType.SMALL, AdsType.FACEBOOK),
-                    adsManager.initNative(context, NativeType.MEDIUM, AdsType.FACEBOOK),
+                    adsManager.initBanner(controller.isSubscription.value, context, AdsType.FACEBOOK),
+                    adsManager.initNative(controller.isSubscription.value, context, NativeType.SMALL, AdsType.FACEBOOK),
+                    adsManager.initNative(controller.isSubscription.value, context, NativeType.MEDIUM, AdsType.FACEBOOK),
                     const SizedBox(height: 30),
                     const Text("Unity"),
-                    adsManager.initBanner(context, AdsType.UNITY),
+                    adsManager.initBanner(controller.isSubscription.value, context, AdsType.UNITY),
                   ],
                 ),
               ),

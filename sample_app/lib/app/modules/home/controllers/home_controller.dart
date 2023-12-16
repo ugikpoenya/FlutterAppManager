@@ -5,4 +5,5 @@ class HomeController extends GetxController {
   //TODO: Implement HomeController
 
   RxList<PostModel> postModelList = <PostModel>[].obs;
+  RxBool isSubscription = false.obs;
 }

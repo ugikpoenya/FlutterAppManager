@@ -7,4 +7,3 @@ export 'src/models/post_model.dart';
 export 'src/models/asset_model.dart';
 export 'src/app_config.dart';
 export 'src/widgets.dart';
-export 'src/revenuecat_manager.dart';

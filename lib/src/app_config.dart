@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 
 class AppConfig {
@@ -44,13 +43,11 @@ class AppConfig {
   AppConfig.fromBoxStorage() {
     GetStorage box = GetStorage();
     itemParser(box.read("AppConfig"));
-    if (kDebugMode) print("AppConfig ${box.read("AppConfig")}");
   }
 
   void toBoxStorage() {
     GetStorage box = GetStorage();
     box.remove("AppConfig");
     box.write("AppConfig", toJson());
-    if (kDebugMode) print("AppConfig ${box.read("AppConfig")}");
   }
 }

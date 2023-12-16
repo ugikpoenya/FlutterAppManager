@@ -25,7 +25,6 @@ class AdsManager extends GetxController {
   final facebookManager = Get.put(FacebookManager());
   final unityManager = Get.put(UnityManager());
 
-  RxBool isSubscription = false.obs;
   String admobTestIdentifiers = "";
 
   Widget isInterstitialAdLoaded(Widget success, Widget error) {
@@ -71,14 +70,14 @@ class AdsManager extends GetxController {
     admobManager.loadAppOpenAd();
   }
 
-  void initAds() {
-    if (!isSubscription.value && (Platform.isIOS || Platform.isAndroid)) {
-      print("Init Ads");
-      facebookManager.initAds();
-      unityManager.initAds();
-      admobManager.initAds();
+  void initAds(bool isSubscription) {
+    if (!isSubscription && (Platform.isIOS || Platform.isAndroid)) {
+      ItemModel itemModel = ItemModel.fromBoxStorage();
+      facebookManager.initAds(itemModel);
+      unityManager.initAds(itemModel);
+      admobManager.initAds(itemModel);
     } else {
-      print("Ads Disable");
+      print("All Ads Disable");
     }
   }
 
@@ -87,9 +86,9 @@ class AdsManager extends GetxController {
   }
 
   void initGDPR(Function function) {
-    if (!isSubscription.value && (Platform.isIOS || Platform.isAndroid)) {
-      ItemModel itemModel = ItemModel.fromBoxStorage();
-      print("Init Ads Admob DGPR ${itemModel.admob_gdpr}");
+    ItemModel itemModel = ItemModel.fromBoxStorage();
+    if (itemModel.isAdmobAds() && (Platform.isIOS || Platform.isAndroid)) {
+      print("Init Admob DGPR ${itemModel.admob_gdpr}");
       if (itemModel.admob_gdpr) {
         if (admobTestIdentifiers.isEmpty) {
           admobManager.initGdpr(function);
@@ -100,7 +99,7 @@ class AdsManager extends GetxController {
         function();
       }
     } else {
-      print("Ads Disable");
+      print("Admob GDPR Disable");
       function();
     }
   }
@@ -143,51 +142,48 @@ class AdsManager extends GetxController {
     }
   }
 
-  Widget initBanner(BuildContext context, AdsType adsType) {
-    return Obx(() {
-      if (!isSubscription.value && (Platform.isIOS || Platform.isAndroid)) {
-        print("Init banner");
-        if (adsType == AdsType.ADMOB) {
-          return admobManager.loadBannerAd(context);
-        } else if (adsType == AdsType.FACEBOOK) {
-          return facebookManager.loadBannerAd();
-        } else if (adsType == AdsType.UNITY) {
-          return unityManager.loadBannerAd();
-        } else {
-          return const SizedBox.shrink();
-        }
+  Widget initBanner(bool isSubscription, BuildContext context, AdsType adsType) {
+    if (!isSubscription && (Platform.isIOS || Platform.isAndroid)) {
+      print("Init banner");
+      if (adsType == AdsType.ADMOB) {
+        return admobManager.loadBannerAd(context);
+      } else if (adsType == AdsType.FACEBOOK) {
+        return facebookManager.loadBannerAd();
+      } else if (adsType == AdsType.UNITY) {
+        return unityManager.loadBannerAd();
       } else {
-        print("Banner Disable");
         return const SizedBox.shrink();
       }
-    });
+    } else {
+      print("Banner Disable $isSubscription");
+      return const SizedBox.shrink();
+    }
   }
 
-  Widget initNative(BuildContext context, NativeType type, AdsType adsType) {
-    return Obx(() {
-      if (!isSubscription.value && (Platform.isIOS || Platform.isAndroid)) {
-        print("Init Native");
-        if (adsType == AdsType.ADMOB) {
-          return admobManager.loadNativeAd(context, type);
-        } else if (adsType == AdsType.FACEBOOK) {
-          return facebookManager.loadNativeAd(type);
-        } else {
-          return const SizedBox.shrink();
-        }
+  Widget initNative(bool isSubscription, BuildContext context, NativeType type, AdsType adsType) {
+    if (!isSubscription && (Platform.isIOS || Platform.isAndroid)) {
+      print("Init Native");
+      if (adsType == AdsType.ADMOB) {
+        return admobManager.loadNativeAd(context, type);
+      } else if (adsType == AdsType.FACEBOOK) {
+        return facebookManager.loadNativeAd(type);
       } else {
-        print("Native Disable");
         return const SizedBox.shrink();
       }
-    });
+    } else {
+      print("Native Disable $isSubscription");
+      return const SizedBox.shrink();
+    }
   }
 
   void confirmAdsAction(
+    bool isSubscription,
     BuildContext context,
     String title,
     String button,
     Function function,
   ) {
-    if (isSubscription.value) {
+    if (isSubscription) {
       function();
     } else {
       AdsManager adsManager = Get.put(AdsManager());

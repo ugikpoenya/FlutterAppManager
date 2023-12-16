@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ItemModel {
@@ -82,13 +81,23 @@ class ItemModel {
   ItemModel.fromBoxStorage() {
     GetStorage box = GetStorage();
     itemParser(box.read("ItemModel"));
-    if (kDebugMode) print("ItemModel ${box.read("ItemModel")}");
   }
 
   void toBoxStorage() {
     GetStorage box = GetStorage();
     box.remove("ItemModel");
     box.write("ItemModel", toJson());
-    if (kDebugMode) print("ItemModel ${box.read("ItemModel")}");
+  }
+
+  bool isAdmobAds() {
+    return !(admob_banner.isEmpty && admob_interstitial.isEmpty && admob_native.isEmpty && admob_open_ads.isEmpty && admob_rewarded_ads.isEmpty);
+  }
+
+  bool isFacebookAds() {
+    return !(facebook_banner.isEmpty && facebook_interstitial.isEmpty && facebook_native.isEmpty && facebook_rewarded_ads.isEmpty);
+  }
+
+  bool isUnityAds() {
+    return !(unity_game_id.isEmpty && unity_banner.isEmpty && unity_interstitial.isEmpty && unity_rewarded_ads.isEmpty);
   }
 }

@@ -9,12 +9,9 @@ class UnityManager extends GetxController {
   RxBool isInterstitialAdLoaded = false.obs;
   RxBool isRewardedAdLoaded = false.obs;
 
-  void initAds() {
-    ItemModel itemModel = ItemModel.fromBoxStorage();
-    if (itemModel.unity_game_id.isEmpty) {
-      print("Unity disable");
-    } else {
-      print("Unity Ads init test ${itemModel.unity_test_mode}");
+  void initAds(ItemModel itemModel) {
+    if (itemModel.isUnityAds()) {
+      print("Unity Ads init test : ${itemModel.unity_test_mode}");
       UnityAds.init(
         gameId: itemModel.unity_game_id,
         testMode: itemModel.unity_test_mode,
@@ -26,13 +23,15 @@ class UnityManager extends GetxController {
 
       loadVideoAds(itemModel.unity_interstitial);
       loadVideoAds(itemModel.unity_rewarded_ads);
+    } else {
+      print("Init Unity isEmpty");
     }
   }
 
   Widget loadBannerAd() {
     String placementId = ItemModel.fromBoxStorage().unity_banner;
     if (placementId.isEmpty) {
-      print("UnityBannerAd Disable");
+      print("UnityBannerAd isEmpty");
       return const SizedBox.shrink();
     } else {
       print("UnityBannerAd Load");
@@ -57,7 +56,7 @@ class UnityManager extends GetxController {
     if (PLACEMENT_ID == itemModel.unity_interstitial) isInterstitialAdLoaded.value = false;
     if (PLACEMENT_ID == itemModel.unity_rewarded_ads) isRewardedAdLoaded.value = false;
     if (PLACEMENT_ID.isEmpty) {
-      print("UnityAds Disable $PLACEMENT_ID");
+      print("UnityAds $PLACEMENT_ID isEmpty");
     } else {
       print("UnityAds Load $PLACEMENT_ID");
 

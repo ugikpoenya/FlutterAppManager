@@ -11,11 +11,15 @@ class FacebookManager extends GetxController {
   RxBool isInterstitialAdLoaded = false.obs;
   RxBool isRewardedAdLoaded = false.obs;
 
-  void initAds() {
-    print("initAds FacebookAudienceNetwork");
-    FacebookAudienceNetwork.init();
-    loadInterstitialAd();
-    loadRewardedAd();
+  void initAds(ItemModel itemModel) {
+    if (itemModel.isFacebookAds()) {
+      print("Init FacebookAudienceNetwork");
+      FacebookAudienceNetwork.init();
+      loadInterstitialAd();
+      loadRewardedAd();
+    } else {
+      print("Init FacebookAudienceNetwork Empty");
+    }
   }
 
   Widget loadBannerAd() {
@@ -23,7 +27,7 @@ class FacebookManager extends GetxController {
     Rx<LoadingProgress> bannerAdIsLoaded = LoadingProgress.LOADING.obs;
 
     if (placementId.isEmpty) {
-      print("FacebookBannerAd Disable");
+      print("FacebookBannerAd isEmpty");
       return unityManager.loadBannerAd();
     } else {
       print("FacebookBannerAd Load");
@@ -47,7 +51,7 @@ class FacebookManager extends GetxController {
     Rx<LoadingProgress> nativeAdIsLoaded = LoadingProgress.LOADING.obs;
     String placementId = ItemModel.fromBoxStorage().facebook_native;
     if (placementId.isEmpty) {
-      print("FacebookNativeAd Disable");
+      print("FacebookNativeAd isEmpty");
       return unityManager.loadBannerAd();
     } else {
       print("FacebookNativeAd Load");
@@ -96,7 +100,7 @@ class FacebookManager extends GetxController {
     String placementId = ItemModel.fromBoxStorage().facebook_interstitial;
     isInterstitialAdLoaded.value = false;
     if (placementId.isEmpty) {
-      print("FacebookInterstitialAd Disable");
+      print("FacebookInterstitialAd isEmpty");
     } else {
       print("FacebookInterstitialAd Load");
       FacebookInterstitialAd.loadInterstitialAd(
@@ -118,7 +122,7 @@ class FacebookManager extends GetxController {
     String placementId = ItemModel.fromBoxStorage().facebook_rewarded_ads;
     isRewardedAdLoaded.value = false;
     if (placementId.isEmpty) {
-      print("FacebookRewardedVideoAd Disable");
+      print("FacebookRewardedVideoAd isEmpty");
     } else {
       print("FacebookRewardedVideoAd Load");
       FacebookRewardedVideoAd.loadRewardedVideoAd(

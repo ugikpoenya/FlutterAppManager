@@ -14,10 +14,15 @@ class AdmobManager extends GetxController {
   InterstitialAd? interstitialAd;
   RewardedAd? rewardedAd;
 
-  void initAds() {
-    MobileAds.instance.initialize();
-    loadInterstitialAd();
-    loadRewardedAd();
+  void initAds(ItemModel itemModel) {
+    if (itemModel.isAdmobAds()) {
+      print("Init Admob");
+      MobileAds.instance.initialize();
+      loadInterstitialAd();
+      loadRewardedAd();
+    } else {
+      print("Init Admob Empty");
+    }
   }
 
   void initGdprTest(Function function, String testIdentifiers) {
@@ -77,7 +82,7 @@ class AdmobManager extends GetxController {
   void loadAppOpenAd() {
     String adUnitId = ItemModel.fromBoxStorage().admob_open_ads;
     if (adUnitId.isEmpty) {
-      print("Admob AppOpenAd Disable");
+      print("Admob AppOpenAd isEmpty");
     } else {
       print("Admob AppOpenAd Load");
       AppOpenAd.load(
@@ -103,7 +108,7 @@ class AdmobManager extends GetxController {
     Rx<LoadingProgress> bannerAdIsLoaded = LoadingProgress.LOADING.obs;
 
     if (adUnitId.isEmpty) {
-      print("Admob BannerAd Disable");
+      print("Admob BannerAd isEmpty");
       return facebookManager.loadBannerAd();
     } else {
       return FutureBuilder(future: Future.sync(() async {
@@ -158,7 +163,7 @@ class AdmobManager extends GetxController {
 
     String adUnitId = ItemModel.fromBoxStorage().admob_native;
     if (adUnitId.isEmpty) {
-      print("Admob NativeAd Disable");
+      print("Admob NativeAd isEmpty");
       return facebookManager.loadNativeAd(type);
     } else {
       print("Admob NativeAd Load");
@@ -225,7 +230,7 @@ class AdmobManager extends GetxController {
     String adUnitId = ItemModel.fromBoxStorage().admob_interstitial;
     isInterstitialAdLoaded.value = false;
     if (adUnitId.isEmpty) {
-      print("Admob InterstitialAd Disable");
+      print("Admob InterstitialAd isEmpty");
     } else {
       print("Admob InterstitialAd Load");
       InterstitialAd.load(
@@ -260,7 +265,7 @@ class AdmobManager extends GetxController {
     String adUnitId = ItemModel.fromBoxStorage().admob_interstitial;
     isRewardedAdLoaded.value = false;
     if (adUnitId.isEmpty) {
-      print("Admob RewardedAd Disable");
+      print("Admob RewardedAd isEmpty");
     } else {
       print("Admob RewardedAd Load");
       RewardedAd.load(
