@@ -9,7 +9,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     AdsManager adsManager = Get.find();
-    ServerManager serverManager = Get.find();
+    // ServerManager serverManager = Get.find();
     RevenuecatManager revenuecatManager = Get.find();
     return Scaffold(
       appBar: AppBar(

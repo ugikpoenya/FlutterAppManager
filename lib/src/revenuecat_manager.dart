@@ -15,6 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 class RevenuecatManager extends GetxController {
   GetStorage box = GetStorage();
   AdsManager adsManager = AdsManager();
+  ServerManager serverManager = ServerManager();
   List<Package> availablePackages = <Package>[].obs;
   RxBool isPurchasingLoading = false.obs;
   late CustomerInfo customerInfo;
@@ -242,6 +243,16 @@ class RevenuecatManager extends GetxController {
                       ),
                     ],
                   ),
+                  (kDebugMode)
+                      ? InkWell(
+                          onTap: () {
+                            Future.delayed(const Duration(milliseconds: 3000), () {
+                              adsManager.isSubscription.value = !adsManager.isSubscription.value;
+                            });
+                          },
+                          child: const Text("Test purchase"),
+                        )
+                      : const SizedBox.shrink()
                 ],
               ),
             ),
