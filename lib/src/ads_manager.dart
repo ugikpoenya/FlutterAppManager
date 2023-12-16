@@ -52,8 +52,14 @@ class AdsManager extends GetxController {
 
   Widget isInterstitialAdLoaded_isRewardedAdLoaded(Widget success, Widget error) {
     return Obx(() {
-      print("Gabungan => Interstitial  : A-${admobManager.isInterstitialAdLoaded.value} | F-${facebookManager.isInterstitialAdLoaded.value} | U-${unityManager.isInterstitialAdLoaded.value}, Rewarded : A-${admobManager.isRewardedAdLoaded.value} | F-${facebookManager.isRewardedAdLoaded.value} | U-${unityManager.isRewardedAdLoaded.value}");
-      if (admobManager.isInterstitialAdLoaded.value || facebookManager.isInterstitialAdLoaded.value || unityManager.isInterstitialAdLoaded.value || admobManager.isRewardedAdLoaded.value || facebookManager.isRewardedAdLoaded.value || unityManager.isRewardedAdLoaded.value) {
+      print(
+          "Gabungan => Interstitial  : A-${admobManager.isInterstitialAdLoaded.value} | F-${facebookManager.isInterstitialAdLoaded.value} | U-${unityManager.isInterstitialAdLoaded.value}, Rewarded : A-${admobManager.isRewardedAdLoaded.value} | F-${facebookManager.isRewardedAdLoaded.value} | U-${unityManager.isRewardedAdLoaded.value}");
+      if (admobManager.isInterstitialAdLoaded.value ||
+          facebookManager.isInterstitialAdLoaded.value ||
+          unityManager.isInterstitialAdLoaded.value ||
+          admobManager.isRewardedAdLoaded.value ||
+          facebookManager.isRewardedAdLoaded.value ||
+          unityManager.isRewardedAdLoaded.value) {
         return success;
       } else {
         return error;
@@ -138,37 +144,41 @@ class AdsManager extends GetxController {
   }
 
   Widget initBanner(BuildContext context, AdsType adsType) {
-    if (!isSubscription.value && (Platform.isIOS || Platform.isAndroid)) {
-      print("Init banner");
-      if (adsType == AdsType.ADMOB) {
-        return admobManager.loadBannerAd(context);
-      } else if (adsType == AdsType.FACEBOOK) {
-        return facebookManager.loadBannerAd();
-      } else if (adsType == AdsType.UNITY) {
-        return unityManager.loadBannerAd();
+    return Obx(() {
+      if (!isSubscription.value && (Platform.isIOS || Platform.isAndroid)) {
+        print("Init banner");
+        if (adsType == AdsType.ADMOB) {
+          return admobManager.loadBannerAd(context);
+        } else if (adsType == AdsType.FACEBOOK) {
+          return facebookManager.loadBannerAd();
+        } else if (adsType == AdsType.UNITY) {
+          return unityManager.loadBannerAd();
+        } else {
+          return const SizedBox.shrink();
+        }
       } else {
+        print("Banner Disable");
         return const SizedBox.shrink();
       }
-    } else {
-      print("Banner Disable");
-      return const SizedBox.shrink();
-    }
+    });
   }
 
   Widget initNative(BuildContext context, NativeType type, AdsType adsType) {
-    if (!isSubscription.value && (Platform.isIOS || Platform.isAndroid)) {
-      print("Init Native");
-      if (adsType == AdsType.ADMOB) {
-        return admobManager.loadNativeAd(context, type);
-      } else if (adsType == AdsType.FACEBOOK) {
-        return facebookManager.loadNativeAd(type);
+    return Obx(() {
+      if (!isSubscription.value && (Platform.isIOS || Platform.isAndroid)) {
+        print("Init Native");
+        if (adsType == AdsType.ADMOB) {
+          return admobManager.loadNativeAd(context, type);
+        } else if (adsType == AdsType.FACEBOOK) {
+          return facebookManager.loadNativeAd(type);
+        } else {
+          return const SizedBox.shrink();
+        }
       } else {
+        print("Native Disable");
         return const SizedBox.shrink();
       }
-    } else {
-      print("Native Disable");
-      return const SizedBox.shrink();
-    }
+    });
   }
 
   void confirmAdsAction(
@@ -185,7 +195,12 @@ class AdsManager extends GetxController {
       FacebookManager facebookManager = Get.put(FacebookManager());
       UnityManager unityManager = Get.put(UnityManager());
 
-      if (admobManager.isRewardedAdLoaded.value || admobManager.isInterstitialAdLoaded.value || facebookManager.isRewardedAdLoaded.value || facebookManager.isInterstitialAdLoaded.value || unityManager.isRewardedAdLoaded.value || unityManager.isInterstitialAdLoaded.value) {
+      if (admobManager.isRewardedAdLoaded.value ||
+          admobManager.isInterstitialAdLoaded.value ||
+          facebookManager.isRewardedAdLoaded.value ||
+          facebookManager.isInterstitialAdLoaded.value ||
+          unityManager.isRewardedAdLoaded.value ||
+          unityManager.isInterstitialAdLoaded.value) {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
