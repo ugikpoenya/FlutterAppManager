@@ -18,6 +18,7 @@ class HomeView extends GetView<HomeController> {
       ),
       body: FutureBuilder(future: Future.sync(() {
         adsManager.initAds();
+        revenuecatManager.initPurchases();
         serverManager.getPosts((response) {
           response?.forEach((element) {
             print(element.post_title);

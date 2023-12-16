@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
+// ignore_for_file: use_build_context_synchronously, avoid_print, non_constant_identifier_names
 
 import 'dart:io';
 
@@ -32,14 +32,20 @@ class RevenuecatManager extends GetxController {
   }
 
   void initPurchases() async {
-    PurchasesConfiguration configuration = PurchasesConfiguration(AppConfig.fromBoxStorage().REVENUECAT_API_KEY);
-    await Purchases.configure(configuration);
-    await Purchases.enableAdServicesAttributionTokenCollection();
-    Purchases.addCustomerInfoUpdateListener((info) {
-      if (kDebugMode) print("Revenucat Listener");
-      cekCustomerInfo(info);
-    });
-    if (availablePackages.isEmpty) getOfferings();
+    var REVENUECAT_API_KEY = AppConfig.fromBoxStorage().REVENUECAT_API_KEY;
+    if (REVENUECAT_API_KEY.isEmpty) {
+      print("Revenucat Disable");
+    } else {
+      print("Revenucat initPurchases");
+      PurchasesConfiguration configuration = PurchasesConfiguration(REVENUECAT_API_KEY);
+      await Purchases.configure(configuration);
+      await Purchases.enableAdServicesAttributionTokenCollection();
+      Purchases.addCustomerInfoUpdateListener((info) {
+        if (kDebugMode) print("Revenucat Listener");
+        cekCustomerInfo(info);
+      });
+      if (availablePackages.isEmpty) getOfferings();
+    }
   }
 
   void cekCustomerInfo(CustomerInfo info) async {
