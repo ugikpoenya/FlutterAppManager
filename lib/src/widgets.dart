@@ -57,6 +57,7 @@ Widget bottomsheetTitle(BuildContext context, String title) {
 }
 
 void showConfig(BuildContext context) {
+  AppConfig appConfig = AppConfig.fromBoxStorage();
   showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -68,7 +69,7 @@ void showConfig(BuildContext context) {
               bottomsheetTitle(context, "Settings"),
               ListTile(
                 onTap: () {
-                  launchUrl(Uri.parse("mailto:${AppConfig().getEmail()}"));
+                  launchUrl(Uri.parse("mailto:${appConfig.EMAIL}"));
                 },
                 title: const Text("Support"),
               ),
@@ -80,7 +81,7 @@ void showConfig(BuildContext context) {
               ),
               ListTile(
                 onTap: () {
-                  launchUrl(Uri.parse(AppConfig().getPrivacyPolicy()));
+                  launchUrl(Uri.parse(appConfig.PRIVACY_POLICY));
                 },
                 title: const Text("Privacy Policy"),
               ),
@@ -92,7 +93,7 @@ void showConfig(BuildContext context) {
               ),
               ListTile(
                 onTap: () {
-                  launchUrl(Uri.parse(AppConfig().getTermsOfUse()));
+                  launchUrl(Uri.parse(appConfig.TERMS_OF_USE));
                 },
                 title: const Text("Terms of Use"),
               ),

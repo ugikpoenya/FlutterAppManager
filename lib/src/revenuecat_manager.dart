@@ -32,7 +32,7 @@ class RevenuecatManager extends GetxController {
   }
 
   void initPurchases() async {
-    PurchasesConfiguration configuration = PurchasesConfiguration(AppConfig().getRevenuecatApiKey());
+    PurchasesConfiguration configuration = PurchasesConfiguration(AppConfig.fromBoxStorage().REVENUECAT_API_KEY);
     await Purchases.configure(configuration);
     await Purchases.enableAdServicesAttributionTokenCollection();
     Purchases.addCustomerInfoUpdateListener((info) {
@@ -220,7 +220,7 @@ class RevenuecatManager extends GetxController {
                     children: [
                       InkWell(
                         onTap: () {
-                          launchUrl(Uri.parse(AppConfig().getPrivacyPolicy()));
+                          launchUrl(Uri.parse(AppConfig.fromBoxStorage().PRIVACY_POLICY));
                         },
                         child: const Text("Privacy Policy"),
                       ),
@@ -230,7 +230,7 @@ class RevenuecatManager extends GetxController {
                       ),
                       InkWell(
                         onTap: () {
-                          launchUrl(Uri.parse(AppConfig().getTermsOfUse()));
+                          launchUrl(Uri.parse(AppConfig.fromBoxStorage().PRIVACY_POLICY));
                         },
                         child: const Text("Terms of Use"),
                       ),

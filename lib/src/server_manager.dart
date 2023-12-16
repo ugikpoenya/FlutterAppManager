@@ -10,20 +10,20 @@ class ServerManager extends GetxController {
   final dio = Dio();
 
   Future getServerUrl(url) async {
-    if (kDebugMode) print("Get Url : ${AppConfig().getBaseUrl() + url}");
+    AppConfig appConfig = AppConfig.fromBoxStorage();
+    if (kDebugMode) print("Get Url : ${appConfig.BASE_URL + url}");
 
     final response = await dio.get(
-      AppConfig().getBaseUrl() + url,
+      appConfig.BASE_URL + url,
       options: Options(
         headers: {
-          "api_key": AppConfig().getApiKey(),
-          "package_name": AppConfig().getPackageName(),
+          "api_key": appConfig.API_KEY,
+          "package_name": appConfig.PACKAGE_NAME,
         },
       ),
     );
 
     if (kDebugMode) print(response);
-
     if (response.statusCode == 200) {
       return response.data;
     } else {
