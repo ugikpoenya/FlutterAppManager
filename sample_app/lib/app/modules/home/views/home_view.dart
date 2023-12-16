@@ -13,8 +13,15 @@ class HomeView extends GetView<HomeController> {
     RevenuecatManager revenuecatManager = Get.find();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomeView'),
+        backgroundColor: Colors.black,
+        title: const Text(
+          'HomeView',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
+        actions: [
+          revenuecatManager.getSubscriptionIcon(context),
+        ],
       ),
       body: FutureBuilder(future: Future.sync(() {
         adsManager.initAds();
