@@ -10,7 +10,6 @@ class AppConfig {
   String PRIVACY_POLICY = "";
   String TERMS_OF_USE = "";
   String EMAIL = "";
-  String REVENUECAT_API_KEY = "";
 
   AppConfig(this.BASE_URL, this.API_KEY, this.PACKAGE_NAME);
 
@@ -21,7 +20,6 @@ class AppConfig {
         'PRIVACY_POLICY': PRIVACY_POLICY,
         'TERMS_OF_USE': TERMS_OF_USE,
         'EMAIL': EMAIL,
-        'REVENUECAT_API_KEY': REVENUECAT_API_KEY,
       };
 
   void itemParser(dynamic item) {
@@ -33,7 +31,6 @@ class AppConfig {
         if (item.containsKey("PRIVACY_POLICY")) PRIVACY_POLICY = item["PRIVACY_POLICY"];
         if (item.containsKey("TERMS_OF_USE")) TERMS_OF_USE = item["TERMS_OF_USE"];
         if (item.containsKey("EMAIL")) EMAIL = item["EMAIL"];
-        if (item.containsKey("REVENUECAT_API_KEY")) REVENUECAT_API_KEY = item["REVENUECAT_API_KEY"];
       } catch (e) {
         print(e);
       }

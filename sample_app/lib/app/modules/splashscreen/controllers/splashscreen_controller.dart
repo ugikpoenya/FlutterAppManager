@@ -12,7 +12,6 @@ class SplashscreenController extends GetxController {
       "DA8BB129F7C1ED5BD07046961C995A77",
       "com.ugikpoenya.sampleapp",
     );
-    appConfig.REVENUECAT_API_KEY = "appl_ltcbfdEZsjgqegrmCaNXNvGiPOE";
     appConfig.EMAIL = "ugikpoenya@gmail.com?subject=Image%20To%20Anime";
     appConfig.PRIVACY_POLICY = "https://ugikpoenya.koncodewe.com/privacy-policy";
     appConfig.TERMS_OF_USE = "https://ugikpoenya.koncodewe.com/terms-of-use";
