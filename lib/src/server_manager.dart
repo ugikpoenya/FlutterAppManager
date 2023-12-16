@@ -34,9 +34,8 @@ class ServerManager extends GetxController {
   void getApi(Function(ItemModel?) function) async {
     try {
       final response = await getServerUrl("api/");
-      var itemModel = ItemModel.fromJson(response);
-      ItemModel.toBoxStorage(itemModel);
-      function(itemModel);
+      ItemModel.fromJson(response).toBoxStorage();
+      function(ItemModel.fromBoxStorage());
     } catch (e) {
       print(e);
       function(null);

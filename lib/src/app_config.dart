@@ -44,13 +44,13 @@ class AppConfig {
   AppConfig.fromBoxStorage() {
     GetStorage box = GetStorage();
     itemParser(box.read("AppConfig"));
-    if (kDebugMode) print("fromBoxStorage " + box.read("AppConfig").toString());
+    if (kDebugMode) print("AppConfig ${box.read("AppConfig")}");
   }
 
   void toBoxStorage() {
     GetStorage box = GetStorage();
     box.remove("AppConfig");
     box.write("AppConfig", toJson());
-    if (kDebugMode) print("toBoxStorage " + box.read("AppConfig").toString());
+    if (kDebugMode) print("AppConfig ${box.read("AppConfig")}");
   }
 }

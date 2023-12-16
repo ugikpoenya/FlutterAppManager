@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ItemModel {
@@ -81,10 +82,13 @@ class ItemModel {
   ItemModel.fromBoxStorage() {
     GetStorage box = GetStorage();
     itemParser(box.read("ItemModel"));
+    if (kDebugMode) print("ItemModel ${box.read("ItemModel")}");
   }
 
-  ItemModel.toBoxStorage(ItemModel itemModel) {
+  void toBoxStorage() {
     GetStorage box = GetStorage();
-    box.write("ItemModel", itemModel.toJson());
+    box.remove("ItemModel");
+    box.write("ItemModel", toJson());
+    if (kDebugMode) print("ItemModel ${box.read("ItemModel")}");
   }
 }
