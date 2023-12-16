@@ -26,24 +26,24 @@ class HomeView extends GetView<HomeController> {
       body: FutureBuilder(future: Future.sync(() {
         adsManager.initAds();
         revenuecatManager.initPurchases();
-        serverManager.getPosts((response) {
-          response?.forEach((element) {
-            print(element.post_title);
-          });
-        });
+        // serverManager.getPosts((response) {
+        //   response?.forEach((element) {
+        //     print(element.post_title);
+        //   });
+        // });
 
-        serverManager.getAssets((response) {
-          response?.files.forEach((element) {
-            print("File $element");
-          });
+        // serverManager.getAssets((response) {
+        //   response?.files.forEach((element) {
+        //     print("File $element");
+        //   });
 
-          response?.folders.forEach((key, value) {
-            print("Folder $key : ${value.length}");
-            for (var element in value) {
-              print("File $element");
-            }
-          });
-        });
+        //   response?.folders.forEach((key, value) {
+        //     print("Folder $key : ${value.length}");
+        //     for (var element in value) {
+        //       print("File $element");
+        //     }
+        //   });
+        // });
       }), builder: (context, snapshot) {
         return Obx(() => SingleChildScrollView(
               child: SizedBox(
