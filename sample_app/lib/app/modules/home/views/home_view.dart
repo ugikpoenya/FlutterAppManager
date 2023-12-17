@@ -2,6 +2,7 @@ import 'package:app_manager/app_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:sample_app/app/routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -54,7 +55,9 @@ class HomeView extends GetView<HomeController> {
                           child: (controller.isSubscription.value) ? const Text('Subscription', style: TextStyle(color: Colors.white)) : const Text('Not Subscription', style: TextStyle(color: Colors.white)),
                         ),
                         ElevatedButton(
-                          onPressed: () => showConfig(context),
+                          onPressed: () => showConfig(context, controller.isSubscription.value, () {
+                            Get.offAllNamed(Routes.SPLASHSCREEN);
+                          }),
                           style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
                           child: const Text('Setting'),
                         ),

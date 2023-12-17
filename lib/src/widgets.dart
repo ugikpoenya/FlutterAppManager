@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:app_manager/app_manager.dart';
 import 'package:app_manager/src/app_config.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void showAllert(BuildContext context, String message) {
@@ -56,8 +58,9 @@ Widget bottomsheetTitle(BuildContext context, String title) {
   );
 }
 
-void showConfig(BuildContext context) {
+void showConfig(BuildContext context, bool isSubscription, Function function) {
   AppConfig appConfig = AppConfig.fromBoxStorage();
+  final adsManager = Get.put(AdsManager());
   showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -97,6 +100,17 @@ void showConfig(BuildContext context) {
                 },
                 title: const Text("Terms of Use"),
               ),
+              (isSubscription) ? const SizedBox.shrink() : AdsManager().initNative(context, NativeType.SMALL, AdsType.ADMOB),
+              (Platform.isAndroid || Platform.isIOS)
+                  ? ListTile(
+                      onTap: () {
+                        adsManager.resetGdpr();
+                        Navigator.of(context).pop();
+                        function();
+                      },
+                      title: const Text("Reset General Data Protection Regulation (GDPR) consent"),
+                    )
+                  : const SizedBox.shrink(),
               Divider(
                 color: Colors.grey[300],
                 height: 0,
