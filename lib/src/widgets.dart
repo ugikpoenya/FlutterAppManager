@@ -61,6 +61,7 @@ Widget bottomsheetTitle(BuildContext context, String title) {
 void showConfig(BuildContext context, bool isSubscription, Function function) {
   AppConfig appConfig = AppConfig.fromBoxStorage();
   final adsManager = Get.put(AdsManager());
+  ItemModel itemModel = ItemModel.fromBoxStorage();
   showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -101,7 +102,7 @@ void showConfig(BuildContext context, bool isSubscription, Function function) {
                 title: const Text("Terms of Use"),
               ),
               (isSubscription) ? const SizedBox.shrink() : AdsManager().initNative(context, NativeType.SMALL, AdsType.ADMOB),
-              (Platform.isAndroid || Platform.isIOS)
+              ((Platform.isAndroid || Platform.isIOS) && !isSubscription && itemModel.isAdmobAds() && itemModel.admob_gdpr)
                   ? ListTile(
                       onTap: () {
                         adsManager.resetGdpr();
