@@ -122,9 +122,11 @@ class HomeView extends GetView<HomeController> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        adsManager.confirmAdsAction(controller.isSubscription.value, context, "Generate App", "Generateing", () {
+                        if (controller.isSubscription.value) {
                           showAllert(context, "Gnerate OK");
-                        });
+                        } else {
+                          adsManager.confirmAdsAction(context, "Generate App", "Generateing", () => showAllert(context, "Gnerate OK"));
+                        }
                       },
                       style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white)),
                       child: const Text('Generate'),
@@ -139,17 +141,17 @@ class HomeView extends GetView<HomeController> {
                     ),
                     const SizedBox(height: 30),
                     const Text("Admob"),
-                    adsManager.initBanner(controller.isSubscription.value, context, AdsType.ADMOB),
-                    adsManager.initNative(controller.isSubscription.value, context, NativeType.SMALL, AdsType.ADMOB),
-                    adsManager.initNative(controller.isSubscription.value, context, NativeType.MEDIUM, AdsType.ADMOB),
+                    (controller.isSubscription.value) ? SizedBox.shrink() : adsManager.initBanner(context, AdsType.ADMOB),
+                    (controller.isSubscription.value) ? SizedBox.shrink() : adsManager.initNative(context, NativeType.SMALL, AdsType.ADMOB),
+                    (controller.isSubscription.value) ? SizedBox.shrink() : adsManager.initNative(context, NativeType.MEDIUM, AdsType.ADMOB),
                     const SizedBox(height: 30),
                     const Text("Facebook"),
-                    adsManager.initBanner(controller.isSubscription.value, context, AdsType.FACEBOOK),
-                    adsManager.initNative(controller.isSubscription.value, context, NativeType.SMALL, AdsType.FACEBOOK),
-                    adsManager.initNative(controller.isSubscription.value, context, NativeType.MEDIUM, AdsType.FACEBOOK),
+                    (controller.isSubscription.value) ? SizedBox.shrink() : adsManager.initBanner(context, AdsType.FACEBOOK),
+                    (controller.isSubscription.value) ? SizedBox.shrink() : adsManager.initNative(context, NativeType.SMALL, AdsType.FACEBOOK),
+                    (controller.isSubscription.value) ? SizedBox.shrink() : adsManager.initNative(context, NativeType.MEDIUM, AdsType.FACEBOOK),
                     const SizedBox(height: 30),
                     const Text("Unity"),
-                    adsManager.initBanner(controller.isSubscription.value, context, AdsType.UNITY),
+                    (controller.isSubscription.value) ? SizedBox.shrink() : adsManager.initBanner(context, AdsType.UNITY),
                   ],
                 ),
               ),

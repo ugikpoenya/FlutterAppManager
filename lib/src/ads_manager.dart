@@ -70,8 +70,8 @@ class AdsManager extends GetxController {
     admobManager.loadAppOpenAd();
   }
 
-  void initAds(bool isSubscription) {
-    if (!isSubscription && (Platform.isIOS || Platform.isAndroid)) {
+  void initAds(bool) {
+    if (Platform.isIOS || Platform.isAndroid) {
       ItemModel itemModel = ItemModel.fromBoxStorage();
       facebookManager.initAds(itemModel);
       unityManager.initAds(itemModel);
@@ -85,22 +85,22 @@ class AdsManager extends GetxController {
     ConsentInformation.instance.reset();
   }
 
-  void initGDPR(Function function) {
+  void initGDPR(Function(ItemModel?) function) {
     ItemModel itemModel = ItemModel.fromBoxStorage();
     if (itemModel.isAdmobAds() && (Platform.isIOS || Platform.isAndroid)) {
-      print("Init Admob DGPR ${itemModel.admob_gdpr}");
       if (itemModel.admob_gdpr) {
         if (admobTestIdentifiers.isEmpty) {
-          admobManager.initGdpr(function);
+          admobManager.initGdpr(function, itemModel);
         } else {
-          admobManager.initGdprTest(function, admobTestIdentifiers);
+          admobManager.initGdprTest(function, itemModel, admobTestIdentifiers);
         }
       } else {
-        function();
+        print("Admob GDPR False");
+        function(itemModel);
       }
     } else {
-      print("Admob GDPR Disable");
-      function();
+      print("Admob Disable");
+      function(itemModel);
     }
   }
 
@@ -142,8 +142,8 @@ class AdsManager extends GetxController {
     }
   }
 
-  Widget initBanner(bool isSubscription, BuildContext context, AdsType adsType) {
-    if (!isSubscription && (Platform.isIOS || Platform.isAndroid)) {
+  Widget initBanner(BuildContext context, AdsType adsType) {
+    if (Platform.isIOS || Platform.isAndroid) {
       print("Init banner");
       if (adsType == AdsType.ADMOB) {
         return admobManager.loadBannerAd(context);
@@ -155,13 +155,13 @@ class AdsManager extends GetxController {
         return const SizedBox.shrink();
       }
     } else {
-      print("Banner Disable $isSubscription");
+      print("Banner Disable");
       return const SizedBox.shrink();
     }
   }
 
-  Widget initNative(bool isSubscription, BuildContext context, NativeType type, AdsType adsType) {
-    if (!isSubscription && (Platform.isIOS || Platform.isAndroid)) {
+  Widget initNative(BuildContext context, NativeType type, AdsType adsType) {
+    if (Platform.isIOS || Platform.isAndroid) {
       print("Init Native");
       if (adsType == AdsType.ADMOB) {
         return admobManager.loadNativeAd(context, type);
@@ -171,76 +171,71 @@ class AdsManager extends GetxController {
         return const SizedBox.shrink();
       }
     } else {
-      print("Native Disable $isSubscription");
+      print("Native Disable");
       return const SizedBox.shrink();
     }
   }
 
   void confirmAdsAction(
-    bool isSubscription,
     BuildContext context,
     String title,
     String button,
     Function function,
   ) {
-    if (isSubscription) {
-      function();
-    } else {
-      AdsManager adsManager = Get.put(AdsManager());
-      AdmobManager admobManager = Get.put(AdmobManager());
-      FacebookManager facebookManager = Get.put(FacebookManager());
-      UnityManager unityManager = Get.put(UnityManager());
+    AdsManager adsManager = Get.put(AdsManager());
+    AdmobManager admobManager = Get.put(AdmobManager());
+    FacebookManager facebookManager = Get.put(FacebookManager());
+    UnityManager unityManager = Get.put(UnityManager());
 
-      if (admobManager.isRewardedAdLoaded.value ||
-          admobManager.isInterstitialAdLoaded.value ||
-          facebookManager.isRewardedAdLoaded.value ||
-          facebookManager.isInterstitialAdLoaded.value ||
-          unityManager.isRewardedAdLoaded.value ||
-          unityManager.isInterstitialAdLoaded.value) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            backgroundColor: Colors.grey.shade200,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                (title.isEmpty)
-                    ? const SizedBox.shrink()
-                    : Text(
-                        title,
-                        style: const TextStyle(color: Colors.black),
-                        textAlign: TextAlign.center,
-                      ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    adsManager.showRewardedAd(AdsType.ADMOB);
-                    Navigator.pop(context);
-                    function();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 15, bottom: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(MdiIcons.playBoxLock, size: 45.0, color: Colors.black),
-                        const SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(button, style: const TextStyle(fontSize: 20, color: Colors.black)),
-                            const Text("Show Ads", style: TextStyle(fontSize: 15, color: Colors.black)),
-                          ],
-                        ),
-                      ],
+    if (admobManager.isRewardedAdLoaded.value ||
+        admobManager.isInterstitialAdLoaded.value ||
+        facebookManager.isRewardedAdLoaded.value ||
+        facebookManager.isInterstitialAdLoaded.value ||
+        unityManager.isRewardedAdLoaded.value ||
+        unityManager.isInterstitialAdLoaded.value) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.grey.shade200,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              (title.isEmpty)
+                  ? const SizedBox.shrink()
+                  : Text(
+                      title,
+                      style: const TextStyle(color: Colors.black),
+                      textAlign: TextAlign.center,
                     ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  adsManager.showRewardedAd(AdsType.ADMOB);
+                  Navigator.pop(context);
+                  function();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(MdiIcons.playBoxLock, size: 45.0, color: Colors.black),
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(button, style: const TextStyle(fontSize: 20, color: Colors.black)),
+                          const Text("Show Ads", style: TextStyle(fontSize: 15, color: Colors.black)),
+                        ],
+                      ),
+                    ],
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
-        );
-      }
+        ),
+      );
     }
   }
 }

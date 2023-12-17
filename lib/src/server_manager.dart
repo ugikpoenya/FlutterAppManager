@@ -7,7 +7,9 @@ import 'package:dio/dio.dart';
 
 class ServerManager extends GetxController {
   GetStorage box = GetStorage();
+  final adsManager = Get.put(AdsManager());
   final dio = Dio();
+  String admobTestIdentifiers = "";
 
   Future getServerUrl(url) async {
     AppConfig appConfig = AppConfig.fromBoxStorage();
@@ -23,19 +25,32 @@ class ServerManager extends GetxController {
       ),
     );
 
-    if (kDebugMode) print(response);
+    if (kDebugMode) print(response.data);
     if (response.statusCode == 200) {
-      return response.data;
+      if (response.data["status"] != null) {
+        if (response.data["status"].toString() == "false") {
+          return null;
+        } else {
+          return response.data;
+        }
+      } else {
+        return response.data;
+      }
     } else {
       return null;
     }
   }
 
-  void getApi(Function(ItemModel?) function) async {
+  void getApiItem(Function(ItemModel?) function) async {
     try {
       final response = await getServerUrl("api/");
-      ItemModel.fromJson(response).toBoxStorage();
-      function(ItemModel.fromBoxStorage());
+      if (response == null) {
+        function(null);
+      } else {
+        ItemModel.fromJson(response).toBoxStorage();
+        adsManager.admobTestIdentifiers = admobTestIdentifiers;
+        adsManager.initGDPR(function);
+      }
     } catch (e) {
       print(e);
       function(null);

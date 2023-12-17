@@ -25,7 +25,7 @@ class AdmobManager extends GetxController {
     }
   }
 
-  void initGdprTest(Function function, String testIdentifiers) {
+  void initGdprTest(Function(ItemModel?) function, ItemModel itemModel, String testIdentifiers) {
     print("Init Admob GDPR Test");
     ConsentDebugSettings debugSettings = ConsentDebugSettings(
       debugGeography: DebugGeography.debugGeographyEea,
@@ -34,47 +34,50 @@ class AdmobManager extends GetxController {
 
     ConsentInformation.instance.requestConsentInfoUpdate(ConsentRequestParameters(consentDebugSettings: debugSettings), () async {
       if (await ConsentInformation.instance.isConsentFormAvailable()) {
-        loadForm(function);
+        loadForm(function, itemModel);
+      } else {
+        function(itemModel);
       }
     }, (FormError error) {
       print(error);
+      function(itemModel);
     });
   }
 
-  void initGdpr(Function function) {
+  void initGdpr(Function(ItemModel?) function, ItemModel itemModel) {
     print("Init Admob GDPR");
     ConsentInformation.instance.requestConsentInfoUpdate(ConsentRequestParameters(), () async {
       if (await ConsentInformation.instance.isConsentFormAvailable()) {
-        loadForm(function);
+        loadForm(function, itemModel);
       } else {
-        function();
+        function(itemModel);
       }
     }, (FormError error) {
       print(error);
-      function();
+      function(itemModel);
     });
   }
 
-  void loadForm(Function function) {
+  void loadForm(Function(ItemModel?) function, ItemModel itemModel) {
     print("Admob GDPR Load Form");
     ConsentForm.loadConsentForm(
       (ConsentForm consentForm) async {
         var status = await ConsentInformation.instance.getConsentStatus();
         print("Admob GDPR $status");
         if (status == ConsentStatus.obtained) {
-          function();
+          function(itemModel);
         }
         if (status == ConsentStatus.required) {
           consentForm.show(
             (formError) {
-              loadForm(function);
+              loadForm(function, itemModel);
             },
           );
         }
       },
       (formError) {
         print(formError);
-        function();
+        function(itemModel);
       },
     );
   }

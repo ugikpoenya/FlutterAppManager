@@ -19,13 +19,14 @@ class SplashscreenController extends GetxController {
     if (Platform.isIOS) appConfig.API_KEY = "f9ab6889e85f61d7ef988a6b1e57fcd4";
     appConfig.toBoxStorage();
 
-    serverManager.getApi((p0) {
-      AdsManager adsManager = Get.put(AdsManager());
-      adsManager.admobTestIdentifiers = "37DF55D8CB7FA08929CFD78ED866BA5C";
-
-      adsManager.initGDPR(() {
+    serverManager.admobTestIdentifiers = "37DF55D8CB7FA08929CFD78ED866BA5C";
+    serverManager.getApiItem((itemModel) {
+      if (itemModel == null) {
+        print("itemModel NUll");
+      } else {
+        print(itemModel.toString());
         Get.offAllNamed(Routes.HOME);
-      });
+      }
     });
   }
 }
