@@ -1,26 +1,31 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:app_manager/app_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
-import 'package:get_storage/get_storage.dart';
 import 'package:dio/dio.dart';
 
-class ServerManager extends GetxController {
-  GetStorage box = GetStorage();
+class ServerManager {
+  String BASE_URL = "";
+  String API_KEY = "";
+  String PACKAGE_NAME = "";
+
   final adsManager = Get.put(AdsManager());
   final dio = Dio();
   String admobTestIdentifiers = "";
 
+  ServerManager(this.BASE_URL, this.API_KEY, this.PACKAGE_NAME);
+
   Future getServerUrl(url) async {
-    AppConfig appConfig = AppConfig.fromBoxStorage();
-    if (kDebugMode) print("Get Url : ${appConfig.BASE_URL + url}");
+    if (kDebugMode) print("Get Url : ${BASE_URL + url}");
 
     final response = await dio.get(
-      appConfig.BASE_URL + url,
+      BASE_URL + url,
       options: Options(
         headers: {
-          "api_key": appConfig.API_KEY,
-          "package_name": appConfig.PACKAGE_NAME,
+          "api_key": API_KEY,
+          "package_name": PACKAGE_NAME,
         },
       ),
     );

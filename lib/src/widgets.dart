@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:app_manager/app_manager.dart';
-import 'package:app_manager/src/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -58,8 +57,14 @@ Widget bottomsheetTitle(BuildContext context, String title) {
   );
 }
 
-void showConfig(BuildContext context, bool isSubscription, Function function) {
-  AppConfig appConfig = AppConfig.fromBoxStorage();
+void showConfig(
+  BuildContext context,
+  String email,
+  String privacyPolicy,
+  String termsOfUse,
+  bool isSubscription,
+  Function function,
+) {
   final adsManager = Get.put(AdsManager());
   ItemModel itemModel = ItemModel.fromBoxStorage();
   showModalBottomSheet(
@@ -73,7 +78,7 @@ void showConfig(BuildContext context, bool isSubscription, Function function) {
               bottomsheetTitle(context, "Settings"),
               ListTile(
                 onTap: () {
-                  launchUrl(Uri.parse("mailto:${appConfig.EMAIL}"));
+                  launchUrl(Uri.parse("mailto:${email}"));
                 },
                 title: const Text("Support"),
               ),
@@ -85,7 +90,7 @@ void showConfig(BuildContext context, bool isSubscription, Function function) {
               ),
               ListTile(
                 onTap: () {
-                  launchUrl(Uri.parse(appConfig.PRIVACY_POLICY));
+                  launchUrl(Uri.parse(privacyPolicy));
                 },
                 title: const Text("Privacy Policy"),
               ),
@@ -97,7 +102,7 @@ void showConfig(BuildContext context, bool isSubscription, Function function) {
               ),
               ListTile(
                 onTap: () {
-                  launchUrl(Uri.parse(appConfig.TERMS_OF_USE));
+                  launchUrl(Uri.parse(termsOfUse));
                 },
                 title: const Text("Terms of Use"),
               ),

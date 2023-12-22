@@ -5,5 +5,4 @@ export 'src/server_manager.dart';
 export 'src/models/item_model.dart';
 export 'src/models/post_model.dart';
 export 'src/models/asset_model.dart';
-export 'src/app_config.dart';
 export 'src/widgets.dart';
