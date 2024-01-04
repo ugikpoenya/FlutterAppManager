@@ -96,6 +96,7 @@ class AdmobManager extends GetxController {
     String adUnitId = ItemModel.fromBoxStorage().admob_open_ads;
     if (adUnitId.isEmpty) {
       print("Admob AppOpenAd isEmpty");
+      function();
     } else {
       print("Admob AppOpenAd Load");
       AppOpenAd.load(

@@ -52,6 +52,7 @@ class ServerManager {
     getApiItem((itemModel) {
       if (firstLoad) {
         firstLoad = false;
+        adsManager.initAds();
         function(itemModel);
       }
     });

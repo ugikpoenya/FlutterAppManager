@@ -23,14 +23,9 @@ class SplashscreenController extends GetxController {
         isProgress.value = false;
       } else {
         print(itemModel.toString());
-        AdsManager adsManager = AdsManager();
-        adsManager.initAds();
-        adsManager.loadAppOpenAd(() {
+        AdsManager().loadAppOpenAd(() {
           Get.offAllNamed(Routes.HOME);
         });
-        // Future.delayed(const Duration(milliseconds: 5000), () {
-        //   Get.offAllNamed(Routes.HOME);
-        // });
       }
     });
   }
