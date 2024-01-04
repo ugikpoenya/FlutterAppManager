@@ -15,10 +15,18 @@ class FacebookManager extends GetxController {
     if (itemModel.isFacebookAds()) {
       print("Init FacebookAudienceNetwork");
       FacebookAudienceNetwork.init();
+    } else {
+      print("Init FacebookAudienceNetwork Empty");
+    }
+  }
+
+  void loadAds(ItemModel itemModel) {
+    if (itemModel.isFacebookAds()) {
+      print("Load FacebookAudienceNetwork");
       loadInterstitialAd();
       loadRewardedAd();
     } else {
-      print("Init FacebookAudienceNetwork Empty");
+      print("Load FacebookAudienceNetwork Empty");
     }
   }
 

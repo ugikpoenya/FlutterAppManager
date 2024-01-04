@@ -51,14 +51,8 @@ class AdsManager extends GetxController {
 
   Widget isInterstitialAdLoaded_isRewardedAdLoaded(Widget success, Widget error) {
     return Obx(() {
-      print(
-          "Gabungan => Interstitial  : A-${admobManager.isInterstitialAdLoaded.value} | F-${facebookManager.isInterstitialAdLoaded.value} | U-${unityManager.isInterstitialAdLoaded.value}, Rewarded : A-${admobManager.isRewardedAdLoaded.value} | F-${facebookManager.isRewardedAdLoaded.value} | U-${unityManager.isRewardedAdLoaded.value}");
-      if (admobManager.isInterstitialAdLoaded.value ||
-          facebookManager.isInterstitialAdLoaded.value ||
-          unityManager.isInterstitialAdLoaded.value ||
-          admobManager.isRewardedAdLoaded.value ||
-          facebookManager.isRewardedAdLoaded.value ||
-          unityManager.isRewardedAdLoaded.value) {
+      print("Gabungan => Interstitial  : A-${admobManager.isInterstitialAdLoaded.value} | F-${facebookManager.isInterstitialAdLoaded.value} | U-${unityManager.isInterstitialAdLoaded.value}, Rewarded : A-${admobManager.isRewardedAdLoaded.value} | F-${facebookManager.isRewardedAdLoaded.value} | U-${unityManager.isRewardedAdLoaded.value}");
+      if (admobManager.isInterstitialAdLoaded.value || facebookManager.isInterstitialAdLoaded.value || unityManager.isInterstitialAdLoaded.value || admobManager.isRewardedAdLoaded.value || facebookManager.isRewardedAdLoaded.value || unityManager.isRewardedAdLoaded.value) {
         return success;
       } else {
         return error;
@@ -66,11 +60,22 @@ class AdsManager extends GetxController {
     });
   }
 
-  void loadAppOpenAd() {
-    admobManager.loadAppOpenAd();
+  void loadAppOpenAd(Function() function) {
+    admobManager.loadAppOpenAd(function);
   }
 
-  void initAds(bool) {
+  void loadVideoAds() {
+    if (Platform.isIOS || Platform.isAndroid) {
+      ItemModel itemModel = ItemModel.fromBoxStorage();
+      facebookManager.loadAds(itemModel);
+      unityManager.loadAds(itemModel);
+      admobManager.loadAds(itemModel);
+    } else {
+      print("All Ads Disable");
+    }
+  }
+
+  void initAds() {
     if (Platform.isIOS || Platform.isAndroid) {
       ItemModel itemModel = ItemModel.fromBoxStorage();
       facebookManager.initAds(itemModel);
@@ -187,12 +192,7 @@ class AdsManager extends GetxController {
     FacebookManager facebookManager = Get.put(FacebookManager());
     UnityManager unityManager = Get.put(UnityManager());
 
-    if (admobManager.isRewardedAdLoaded.value ||
-        admobManager.isInterstitialAdLoaded.value ||
-        facebookManager.isRewardedAdLoaded.value ||
-        facebookManager.isInterstitialAdLoaded.value ||
-        unityManager.isRewardedAdLoaded.value ||
-        unityManager.isInterstitialAdLoaded.value) {
+    if (admobManager.isRewardedAdLoaded.value || admobManager.isInterstitialAdLoaded.value || facebookManager.isRewardedAdLoaded.value || facebookManager.isInterstitialAdLoaded.value || unityManager.isRewardedAdLoaded.value || unityManager.isInterstitialAdLoaded.value) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(

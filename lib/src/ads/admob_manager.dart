@@ -18,6 +18,14 @@ class AdmobManager extends GetxController {
     if (itemModel.isAdmobAds()) {
       print("Init Admob");
       MobileAds.instance.initialize();
+    } else {
+      print("Init Admob Empty");
+    }
+  }
+
+  void loadAds(ItemModel itemModel) {
+    if (itemModel.isAdmobAds()) {
+      print("Load Admob");
       loadInterstitialAd();
       loadRewardedAd();
     } else {
@@ -34,6 +42,7 @@ class AdmobManager extends GetxController {
 
     ConsentInformation.instance.requestConsentInfoUpdate(ConsentRequestParameters(consentDebugSettings: debugSettings), () async {
       if (await ConsentInformation.instance.isConsentFormAvailable()) {
+        print("Init Admob GDPR isConsentFormAvailable");
         loadForm(function, itemModel);
       } else {
         function(itemModel);
@@ -48,6 +57,7 @@ class AdmobManager extends GetxController {
     print("Init Admob GDPR");
     ConsentInformation.instance.requestConsentInfoUpdate(ConsentRequestParameters(), () async {
       if (await ConsentInformation.instance.isConsentFormAvailable()) {
+        print("Init Admob GDPR isConsentFormAvailable");
         loadForm(function, itemModel);
       } else {
         function(itemModel);
@@ -82,7 +92,7 @@ class AdmobManager extends GetxController {
     );
   }
 
-  void loadAppOpenAd() {
+  void loadAppOpenAd(Function() function) {
     String adUnitId = ItemModel.fromBoxStorage().admob_open_ads;
     if (adUnitId.isEmpty) {
       print("Admob AppOpenAd isEmpty");
@@ -95,10 +105,26 @@ class AdmobManager extends GetxController {
         adLoadCallback: AppOpenAdLoadCallback(
           onAdLoaded: (ad) {
             print('Admob $ad loaded');
+            ad.fullScreenContentCallback = FullScreenContentCallback(
+              onAdShowedFullScreenContent: (ad) {
+                print('Admob $ad onAdShowedFullScreenContent');
+              },
+              onAdFailedToShowFullScreenContent: (ad, error) {
+                print('Admob $ad onAdFailedToShowFullScreenContent: $error');
+                ad.dispose();
+                function();
+              },
+              onAdDismissedFullScreenContent: (ad) {
+                print('Admob $ad onAdDismissedFullScreenContent');
+                ad.dispose();
+                function();
+              },
+            );
             ad.show();
           },
           onAdFailedToLoad: (error) {
             print('Admob AppOpenAd failed to load: $error');
+            function();
           },
         ),
       );

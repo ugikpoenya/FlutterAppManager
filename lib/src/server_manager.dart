@@ -46,6 +46,16 @@ class ServerManager {
     }
   }
 
+  bool firstLoad = true;
+  void initSplashScreen(Function(ItemModel?) function) async {
+    getApiItem((itemModel) {
+      if (firstLoad) {
+        firstLoad = false;
+        function(itemModel);
+      }
+    });
+  }
+
   void getApiItem(Function(ItemModel?) function) async {
     try {
       final response = await getServerUrl("api/");

@@ -14,13 +14,20 @@ class SplashscreenController extends GetxController {
     if (Platform.isAndroid) serverManager.API_KEY = "DA8BB129F7C1ED5BD07046961C995A77";
     if (Platform.isIOS) serverManager.API_KEY = "f9ab6889e85f61d7ef988a6b1e57fcd4";
 
-    serverManager.admobTestIdentifiers = "37DF55D8CB7FA08929CFD78ED866BA5C";
-    serverManager.getApiItem((itemModel) {
+    serverManager.admobTestIdentifiers = "11D517C6CAD1DEE0070D63332483D50E";
+    serverManager.initSplashScreen((itemModel) {
       if (itemModel == null) {
         print("itemModel NUll");
       } else {
         print(itemModel.toString());
-        Get.offAllNamed(Routes.HOME);
+        AdsManager adsManager = AdsManager();
+        adsManager.initAds();
+        adsManager.loadAppOpenAd(() {
+          Get.offAllNamed(Routes.HOME);
+        });
+        // Future.delayed(const Duration(milliseconds: 5000), () {
+        //   Get.offAllNamed(Routes.HOME);
+        // });
       }
     });
   }

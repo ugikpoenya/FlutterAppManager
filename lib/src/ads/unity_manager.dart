@@ -20,11 +20,18 @@ class UnityManager extends GetxController {
         },
         onFailed: (error, message) => print('UnityAds Initialization Failed: $error $message'),
       );
+    } else {
+      print("Init Unity isEmpty");
+    }
+  }
 
+  void loadAds(ItemModel itemModel) {
+    if (itemModel.isUnityAds()) {
+      print("Unity Ads load test : ${itemModel.unity_test_mode}");
       loadVideoAds(itemModel.unity_interstitial);
       loadVideoAds(itemModel.unity_rewarded_ads);
     } else {
-      print("Init Unity isEmpty");
+      print("load Unity isEmpty");
     }
   }
 

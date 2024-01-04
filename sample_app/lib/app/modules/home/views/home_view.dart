@@ -22,7 +22,7 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
       ),
       body: FutureBuilder(future: Future.sync(() {
-        adsManager.initAds(controller.isSubscription.value);
+        adsManager.loadVideoAds();
         // serverManager.getPosts((response) {
         //   response?.forEach((element) {
         //     print(element.post_title);
@@ -75,7 +75,9 @@ class HomeView extends GetView<HomeController> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         ElevatedButton(
-                          onPressed: () => adsManager.loadAppOpenAd(),
+                          onPressed: () => adsManager.loadAppOpenAd(() {
+                            Get.offAllNamed(Routes.HOME);
+                          }),
                           style: ElevatedButton.styleFrom(elevation: 12.0, textStyle: const TextStyle(color: Colors.white), backgroundColor: Colors.red),
                           child: const Text('Open Ads', style: TextStyle(color: Colors.white)),
                         ),
