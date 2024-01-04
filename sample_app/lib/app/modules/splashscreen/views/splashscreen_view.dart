@@ -12,7 +12,15 @@ class SplashscreenView extends GetView<SplashscreenController> {
       body: FutureBuilder(future: Future.sync(() {
         controller.initAds();
       }), builder: (context, snapshot) {
-        return const Center(child: const CircularProgressIndicator());
+        return Center(
+            child: Obx(
+          () => (controller.isProgress.value)
+              ? CircularProgressIndicator()
+              : TextButton(
+                  onPressed: () => controller.initAds(),
+                  child: Text("Try Again"),
+                ),
+        ));
       }),
     );
   }

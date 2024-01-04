@@ -48,6 +48,7 @@ class ServerManager {
 
   bool firstLoad = true;
   void initSplashScreen(Function(ItemModel?) function) async {
+    firstLoad = true;
     getApiItem((itemModel) {
       if (firstLoad) {
         firstLoad = false;
