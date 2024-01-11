@@ -23,6 +23,8 @@ class ItemModel {
   String unity_rewarded_ads = "";
   bool unity_test_mode = false;
 
+  String keyword = "";
+
   ItemModel();
 
   ItemModel.fromJson(Map<String, dynamic> json) {
@@ -48,6 +50,7 @@ class ItemModel {
         'unity_interstitial': unity_interstitial,
         'unity_rewarded_ads': unity_rewarded_ads,
         'unity_test_mode': unity_test_mode,
+        'keyword': keyword,
       };
 
   void itemParser(dynamic item) {
@@ -72,6 +75,8 @@ class ItemModel {
         if (item.containsKey("unity_interstitial")) unity_interstitial = item["unity_interstitial"];
         if (item.containsKey("unity_rewarded_ads")) unity_rewarded_ads = item["unity_rewarded_ads"];
         if (item.containsKey("unity_test_mode")) unity_test_mode = (item["unity_test_mode"].toString() == "true");
+
+        if (item.containsKey("keyword")) keyword = item["keyword"];
       } catch (e) {
         print(e);
       }
