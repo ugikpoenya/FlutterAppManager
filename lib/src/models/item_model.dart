@@ -24,6 +24,7 @@ class ItemModel {
   bool unity_test_mode = false;
 
   String keyword = "";
+  String asset_folder = "";
 
   ItemModel();
 
@@ -51,6 +52,7 @@ class ItemModel {
         'unity_rewarded_ads': unity_rewarded_ads,
         'unity_test_mode': unity_test_mode,
         'keyword': keyword,
+        'asset_folder': asset_folder,
       };
 
   void itemParser(dynamic item) {
@@ -77,6 +79,7 @@ class ItemModel {
         if (item.containsKey("unity_test_mode")) unity_test_mode = (item["unity_test_mode"].toString() == "true");
 
         if (item.containsKey("keyword")) keyword = item["keyword"];
+        if (item.containsKey("asset_folder")) asset_folder = item["asset_folder"];
       } catch (e) {
         print(e);
       }
