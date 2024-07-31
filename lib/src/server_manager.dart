@@ -18,17 +18,9 @@ class ServerManager {
   ServerManager(this.BASE_URL, this.API_KEY, this.PACKAGE_NAME);
 
   Future getServerUrl(url) async {
-    if (kDebugMode) print("Get Url : ${BASE_URL + url}");
+    if (kDebugMode) print("Get Url : ${url}");
 
-    final response = await dio.get(
-      BASE_URL + url,
-      options: Options(
-        headers: {
-          "api_key": API_KEY,
-          "package_name": PACKAGE_NAME,
-        },
-      ),
-    );
+    final response = await dio.get(url);
 
     if (kDebugMode) print(response.data);
     if (response.statusCode == 200) {
@@ -60,7 +52,7 @@ class ServerManager {
 
   void getApiItem(Function(ItemModel?) function) async {
     try {
-      final response = await getServerUrl("api/");
+      final response = await getServerUrl("${BASE_URL}apps/${API_KEY}.json");
       if (response == null) {
         function(null);
       } else {

@@ -1,8 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
 class Config {
-  final String BASE_URL = "https://master.ugikpoenya.net/";
-  final String API_KEY = "DA8BB129F7C1ED5BD07046961C995A77";
+  final String BASE_URL = "https://ugikpoenya-app-manager-default-rtdb.asia-southeast1.firebasedatabase.app/";
+  final String API_KEY_ANDROID = "-O35sJr1sRyJeKptLd5i";
+  final String API_KEY_IOS = "-O35tjPmjH949frln6GJ";
   final String PACKAGE_NAME = "com.ugikpoenya.sampleapp";
   final String EMAIL = "ugikpoenya@gmail.com?subject=Image%20To%20Anime";
   final String PRIVACY_POLICY = "https://ugikpoenya.koncodewe.com/privacy-policy";
