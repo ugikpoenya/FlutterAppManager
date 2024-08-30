@@ -10,8 +10,9 @@ class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    ItemModel itemModel = ItemModel.fromBoxStorage();
     AdsManager adsManager = Get.find();
-    // ServerManager serverManager = Get.find();
+    ServerManager serverManager = Get.find();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -23,24 +24,25 @@ class HomeView extends GetView<HomeController> {
       ),
       body: FutureBuilder(future: Future.sync(() {
         adsManager.loadVideoAds();
-        // serverManager.getPosts((response) {
-        //   response?.forEach((element) {
-        //     print(element.post_title);
-        //   });
-        // });
+        print("LOG:Home page =============================");
+        serverManager.getPosts(itemModel.asset_url, (response) {
+          response?.forEach((element) {
+            print("LOG:" + element.post_title + " : " + element.post_asset);
+            serverManager.getAssets(element.post_asset, (res) {
+              res?.files.forEach((file) {
+                print('File Name: ${file.name}');
+              });
 
-        // serverManager.getAssets((response) {
-        //   response?.files.forEach((element) {
-        //     print("File $element");
-        //   });
-
-        //   response?.folders.forEach((key, value) {
-        //     print("Folder $key : ${value.length}");
-        //     for (var element in value) {
-        //       print("File $element");
-        //     }
-        //   });
-        // });
+              res?.folders.forEach((folder) {
+                print("=============================");
+                print('Folder: ${folder.folderName}');
+                folder.files.forEach((file) {
+                  print('Folder File : ${file.name}');
+                });
+              });
+            });
+          });
+        });
       }), builder: (context, snapshot) {
         return Obx(() => SingleChildScrollView(
               child: SizedBox(

@@ -7,15 +7,11 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 
 class ServerManager {
-  String BASE_URL = "";
-  String API_KEY = "";
-  String PACKAGE_NAME = "";
-
   final adsManager = Get.put(AdsManager());
   final dio = Dio();
   String admobTestIdentifiers = "";
 
-  ServerManager(this.BASE_URL, this.API_KEY, this.PACKAGE_NAME);
+  ServerManager();
 
   Future getServerUrl(url) async {
     if (kDebugMode) print("Get Url : ${url}");
@@ -39,9 +35,9 @@ class ServerManager {
   }
 
   bool firstLoad = true;
-  void initSplashScreen(Function(ItemModel?) function) async {
+  void initSplashScreen(url, Function(ItemModel?) function) async {
     firstLoad = true;
-    getApiItem((itemModel) {
+    getApiItem(url, (itemModel) {
       if (firstLoad) {
         firstLoad = false;
         adsManager.initAds();
@@ -50,9 +46,9 @@ class ServerManager {
     });
   }
 
-  void getApiItem(Function(ItemModel?) function) async {
+  void getApiItem(url, Function(ItemModel?) function) async {
     try {
-      final response = await getServerUrl("${BASE_URL}apps/${API_KEY}.json");
+      final response = await getServerUrl(url);
       if (response == null) {
         function(null);
       } else {
@@ -66,21 +62,21 @@ class ServerManager {
     }
   }
 
-  void getPosts(Function(List<PostModel>?) function) async {
-    print("getPosts");
+  void getPosts(url, Function(List<PostModel>?) function) async {
+    print("getPosts ");
     try {
-      final response = await getServerUrl("api/posts");
-      List<PostModel> postModelList = PostModel.fromJsonList(response["data"]);
-      function(postModelList);
+      final response = await getServerUrl(url);
+      List<PostModel> posts = PostModel.fromJsonMap(response["posts"]);
+      function(posts);
     } catch (e) {
       function(null);
       print(e);
     }
   }
 
-  void getAssets(Function(AssetModel?) function) async {
+  void getAssets(url, Function(AssetModel?) function) async {
     try {
-      final response = await getServerUrl("api/assets");
+      final response = await getServerUrl(url);
       AssetModel assetsModel = AssetModel.fromJson(response);
       function(assetsModel);
     } catch (e) {

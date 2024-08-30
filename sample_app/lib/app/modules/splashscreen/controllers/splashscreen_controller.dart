@@ -9,16 +9,12 @@ class SplashscreenController extends GetxController {
   RxBool isProgress = true.obs;
   void initAds() {
     isProgress.value = true;
-    ServerManager serverManager = ServerManager(
-      Config().BASE_URL,
-      Config().API_KEY_ANDROID,
-      Config().PACKAGE_NAME,
-    );
-    if (Platform.isAndroid) serverManager.API_KEY = Config().API_KEY_ANDROID;
-    if (Platform.isIOS) serverManager.API_KEY = Config().API_KEY_IOS;
+    ServerManager serverManager = ServerManager();
+
+    String BASE_URL = (Platform.isAndroid) ? Config().BASE_URL_ANDROID : Config().BASE_URL_IOS;
 
     serverManager.admobTestIdentifiers = "11D517C6CAD1DEE0070D63332483D50E";
-    serverManager.initSplashScreen((itemModel) {
+    serverManager.initSplashScreen(BASE_URL, (itemModel) {
       if (itemModel == null) {
         print("itemModel NUll");
         isProgress.value = false;
