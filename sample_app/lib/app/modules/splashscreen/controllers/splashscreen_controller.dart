@@ -13,7 +13,7 @@ class SplashscreenController extends GetxController {
 
     String BASE_URL = (Platform.isAndroid) ? Config().BASE_URL_ANDROID : Config().BASE_URL_IOS;
 
-    serverManager.admobTestIdentifiers = "11D517C6CAD1DEE0070D63332483D50E";
+    serverManager.admobTestIdentifiers = "E5204197F791CFDEC32F684443D202B9";
     serverManager.initSplashScreen(BASE_URL, (itemModel) {
       if (itemModel == null) {
         print("itemModel NUll");

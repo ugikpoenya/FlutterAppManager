@@ -110,6 +110,8 @@ class AdsManager extends GetxController {
   }
 
   void showInterstitialAd(AdsType adsType) {
+    print('showInterstitialAd: $adsType');
+
     if (adsType == AdsType.ADMOB) {
       if (admobManager.interstitialAd == null) {
         showInterstitialAd(AdsType.FACEBOOK);
@@ -128,6 +130,8 @@ class AdsManager extends GetxController {
   }
 
   void showRewardedAd(AdsType adsType) {
+    print('showRewardedAd: $adsType');
+
     if (adsType == AdsType.ADMOB) {
       if (admobManager.rewardedAd == null) {
         showRewardedAd(AdsType.FACEBOOK);
@@ -148,6 +152,8 @@ class AdsManager extends GetxController {
   }
 
   Widget initBanner(BuildContext context, AdsType adsType) {
+    print('initBanner: $adsType');
+
     if (Platform.isIOS || Platform.isAndroid) {
       print("Init banner");
       if (adsType == AdsType.ADMOB) {
@@ -166,6 +172,8 @@ class AdsManager extends GetxController {
   }
 
   Widget initNative(BuildContext context, NativeType type, AdsType adsType) {
+    print('initNative: $adsType');
+
     if (Platform.isIOS || Platform.isAndroid) {
       print("Init Native");
       if (adsType == AdsType.ADMOB) {
