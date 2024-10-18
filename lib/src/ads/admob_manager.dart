@@ -101,7 +101,7 @@ class AdmobManager extends GetxController {
       print("Admob AppOpenAd Load");
       AppOpenAd.load(
         adUnitId: adUnitId,
-        orientation: AppOpenAd.orientationPortrait,
+        // orientation: AppOpenAd.orientationPortrait,
         request: const AdRequest(),
         adLoadCallback: AppOpenAdLoadCallback(
           onAdLoaded: (ad) {
